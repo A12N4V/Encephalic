@@ -1,4 +1,4 @@
-# EEG Visualizer
+# Encephalic - EEG Visualization Platform
 
 <div align="center">
   <img src="s3.png" alt="EEG Graph" width="30%" style="display:inline-block;" />
@@ -6,174 +6,293 @@
   <img src="s2.png" alt="3D Brain Map" width="30%" style="display:inline-block;" />
 </div>
 
-An EEG Visualizer web application designed to process, display, and analyze EEG data. This tool provides an intuitive interface to plot EEG signals, visualize heatmaps, and explore a 3D brain map. The frontend is built with React, and the backend is powered by Flask. 
+A modern, professional EEG visualization web application designed to process, display, and analyze EEG data. Built with cutting-edge technologies for optimal performance and user experience.
 
----
+## ✨ Features
 
-## Features
+- **Real-time EEG Signal Visualization**: Interactive, multi-channel EEG waveform plotting with Plotly.js
+- **Topographic Brain Mapping**: Dynamic heatmaps showing spatial brain activity distribution
+- **3D Brain Visualization**: Explore brain activity in three-dimensional space
+- **Time-series Analysis**: Scrub through EEG data with interactive timeline controls
+- **Playback Mode**: Automated playback of EEG recordings with real-time updates
+- **Dark/Light Theme**: Toggle between dark and light modes for comfortable viewing
+- **Modern UI**: Built with Next.js and shadcn/ui for a sleek, responsive interface
 
-- **EEG Graph Plotting**: Visualize EEG data in real time using interactive graphs.
-- **Heatmap Display**: View heatmaps that represent brain activity across various regions.
-- **3D Brain Map**: Explore a 3D model of the brain to understand data in a spatial context.
-- **Backend Processing**: Leverages [MNE-Python](https://mne.tools/) for advanced EEG data analysis and preprocessing.
+## 🚀 Quick Start with Docker
 
----
-
-## Installation
-
-Follow the steps below to set up and run the EEG Visualizer on your local machine.
+The easiest way to run Encephalic is using Docker. This method requires no manual setup of dependencies.
 
 ### Prerequisites
 
-- **Python** (>=3.8)
-- **Node.js** (>=14.x)
-- **npm** or **yarn**
+- [Docker](https://www.docker.com/get-started) (version 20.10 or higher)
+- [Docker Compose](https://docs.docker.com/compose/install/) (version 2.0 or higher)
 
-### Backend Setup (Flask)
+### Running the Application
 
-1. Clone the repository:
-    ```bash
-    git clone https://github.com/A12N4V/EEGVis.git
-    cd EEGVis/backend
-    ```
+1. **Clone the repository**
+   ```bash
+   git clone https://github.com/A12N4V/EEGVis.git
+   cd EEGVis
+   ```
 
-2. Create a virtual environment:
-    ```bash
-    python -m venv venv
-    source venv/bin/activate   # On Windows: venv\Scripts\activate
-    ```
+2. **Start the application**
+   ```bash
+   docker-compose up --build
+   ```
 
-3. Install dependencies:
-    ```bash
-    pip install -r requirements.txt
-    ```
+   Or use the convenience script:
+   ```bash
+   chmod +x start.sh
+   ./start.sh
+   ```
 
-4. Run the Flask server:
-    ```bash
-    flask run
-    ```
+3. **Access the application**
+   - Frontend: http://localhost:3000
+   - Backend API: http://localhost:5000
 
-The Flask server will run on `http://127.0.0.1:5000` by default.
+4. **Stop the application**
+   ```bash
+   docker-compose down
+   ```
 
-### Frontend Setup (React)
+   To also remove volumes:
+   ```bash
+   docker-compose down -v
+   ```
 
-1. Navigate to the frontend folder:
-    ```bash
-    cd ../frontend
-    ```
+## 🏗️ Architecture
 
-2. Install dependencies:
-    ```bash
-    npm install   # or yarn install
-    ```
+### Technology Stack
 
-3. Start the React development server:
-    ```bash
-    npm start   # or yarn start
-    ```
+**Frontend:**
+- **Framework**: Next.js 14 (React 18)
+- **Language**: TypeScript
+- **Styling**: Tailwind CSS
+- **UI Components**: shadcn/ui (Radix UI)
+- **Visualization**: Plotly.js, React Plotly
+- **Icons**: Lucide React
 
-The React app will run on `http://localhost:3000` by default.
+**Backend:**
+- **Framework**: Flask 3.0
+- **Language**: Python 3.11
+- **EEG Processing**: MNE-Python
+- **Scientific Computing**: NumPy, SciPy, Matplotlib
+- **Server**: Gunicorn
 
----
+**DevOps:**
+- **Containerization**: Docker
+- **Orchestration**: Docker Compose
+- **Networking**: Bridge network for service communication
 
-## Project Structure
+### Project Structure
 
 ```
-├── backend
-│   ├── app.py                # Flask application entry point
-│   ├── routes.py             # Backend API routes
-│   ├── utils
-│   │   └── eeg_processing.py # EEG data processing with MNE-Python
-│   └── requirements.txt      # Backend dependencies
-├── frontend
-│   ├── src
-│   │   ├── components
-│   │   │   ├── EEGGraph.js    # EEG plotting component
-│   │   │   ├── Heatmap.js     # Heatmap display component
-│   │   │   └── BrainMap3D.js  # 3D brain visualization component
-│   │   └── App.js            # Main React entry point
-│   └── package.json          # Frontend dependencies
-└── README.md                 # Project documentation
+EEGVis/
+├── frontend/                 # Next.js frontend application
+│   ├── app/                 # Next.js app directory
+│   │   ├── globals.css      # Global styles
+│   │   ├── layout.tsx       # Root layout
+│   │   └── page.tsx         # Home page
+│   ├── components/          # React components
+│   │   ├── ui/             # shadcn/ui components
+│   │   └── EEGVisualizer.tsx # Main visualization component
+│   ├── lib/                # Utility libraries
+│   ├── Dockerfile          # Frontend Docker configuration
+│   └── package.json        # Node dependencies
+│
+├── backend/                 # Flask backend application
+│   ├── app/                # Application package
+│   │   ├── routes/         # API route handlers
+│   │   ├── services/       # Business logic
+│   │   └── utils/          # Helper functions
+│   ├── Dockerfile          # Backend Docker configuration
+│   ├── requirements.txt    # Python dependencies
+│   └── run.py             # Application entry point
+│
+├── docker-compose.yml      # Docker orchestration config
+├── start.sh               # Convenience startup script
+└── README.md              # This file
 ```
 
----
+## 🛠️ Development Setup
 
-## Usage
+### Without Docker (Manual Setup)
 
-1. Upload EEG data via the web interface or load sample datasets.
-2. Use the EEG graph to explore signal patterns.
-3. Analyze brain activity using the heatmap and 3D brain map.
+#### Backend Setup
 
----
+1. **Navigate to backend directory**
+   ```bash
+   cd backend
+   ```
 
-## Technologies Used
+2. **Create virtual environment**
+   ```bash
+   python -m venv venv
+   source venv/bin/activate  # On Windows: venv\Scripts\activate
+   ```
 
-- **Frontend**: React (with modern hooks and state management)
-- **Backend**: Flask
-- **EEG Data Processing**: MNE-Python
-- **Graphing & Visualization**: Plotly.js (frontend), matplotlib (backend)
+3. **Install dependencies**
+   ```bash
+   pip install -r requirements.txt
+   ```
 
----
+4. **Run the Flask server**
+   ```bash
+   python run.py
+   ```
 
-## Example Initialization Code
+   The backend will run on http://localhost:5000
 
-### Backend (Flask)
-Here’s a snippet to initialize the Flask app:
+#### Frontend Setup
 
-```python
-from flask import Flask
-from routes import init_routes
+1. **Navigate to frontend directory**
+   ```bash
+   cd frontend
+   ```
 
-app = Flask(__name__)
-init_routes(app)
+2. **Install dependencies**
+   ```bash
+   npm install
+   ```
 
-if __name__ == "__main__":
-    app.run(debug=True)
+3. **Run the development server**
+   ```bash
+   npm run dev
+   ```
+
+   The frontend will run on http://localhost:3000
+
+## 📡 API Endpoints
+
+### GET `/api/eeg-data`
+Retrieves EEG signal data for all channels.
+
+**Response:**
+```json
+{
+  "labels": ["EEG 001", "EEG 002", ...],
+  "data": [[...], [...], ...],
+  "sampling_rate": 600.614990234375,
+  "duration": 10
+}
 ```
 
-### Frontend (React)
-Example of a React component for EEG graph visualization:
+### GET `/api/eeg-heatmap/<time_point>`
+Generates a topographic heatmap at a specific time point.
 
-```jsx
-import React from 'react';
-import Plot from 'react-plotly.js';
+**Parameters:**
+- `time_point` (float): Time in seconds
 
-const EEGGraph = ({ data }) => {
-  return (
-    <Plot
-      data={data}
-      layout={{
-        title: 'EEG Signal',
-        xaxis: { title: 'Time (s)' },
-        yaxis: { title: 'Amplitude (μV)' },
-      }}
-    />
-  );
-};
+**Response:** PNG image
 
-export default EEGGraph;
+### GET `/api/eeg-3d/<time>`
+Generates a 3D brain visualization.
+
+**Parameters:**
+- `time` (float): Time in seconds
+
+**Response:** PNG image
+
+### GET `/api/health`
+Health check endpoint for monitoring.
+
+**Response:**
+```json
+{
+  "status": "healthy",
+  "service": "EEG Backend API"
+}
 ```
 
----
+## 🎨 Features Showcase
 
-## Contributing
+### Interactive EEG Plotting
+- Multi-channel visualization with individual trace controls
+- Click on any point to see corresponding brain activity
+- Zoom and pan capabilities for detailed analysis
+
+### Topographic Mapping
+- Real-time topographic plots showing spatial distribution
+- Color-coded amplitude visualization
+- Sensor position display
+
+### Timeline Control
+- Slider for precise time point selection
+- Play/pause functionality for automated playback
+- Time display with millisecond precision
+
+### Modern UI/UX
+- Gradient backgrounds with glassmorphism effects
+- Smooth animations and transitions
+- Responsive design for all screen sizes
+- Accessible color schemes
+
+## 🔧 Configuration
+
+### Environment Variables
+
+**Frontend (.env.local):**
+```env
+NEXT_PUBLIC_API_URL=http://localhost:5000
+```
+
+**Backend:**
+```env
+FLASK_APP=run.py
+FLASK_ENV=production
+PORT=5000
+```
+
+## 🐛 Troubleshooting
+
+### Docker Issues
+
+**Port already in use:**
+```bash
+# Change ports in docker-compose.yml
+ports:
+  - "3001:3000"  # Frontend
+  - "5001:5000"  # Backend
+```
+
+**Container won't start:**
+```bash
+# Check logs
+docker-compose logs backend
+docker-compose logs frontend
+
+# Rebuild from scratch
+docker-compose down -v
+docker-compose up --build
+```
+
+## 🤝 Contributing
 
 Contributions are welcome! Please follow these steps:
 
-1. Fork the repository.
-2. Create a new branch (`feature/your-feature-name`).
-3. Commit your changes and push to your branch.
-4. Submit a pull request.
+1. Fork the repository
+2. Create a feature branch (`git checkout -b feature/amazing-feature`)
+3. Commit your changes (`git commit -m 'Add amazing feature'`)
+4. Push to the branch (`git push origin feature/amazing-feature`)
+5. Open a Pull Request
 
----
-
-## License
+## 📝 License
 
 This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.
 
+## 🙏 Acknowledgments
+
+- [MNE-Python](https://mne.tools/) for EEG processing capabilities
+- [Next.js](https://nextjs.org/) for the frontend framework
+- [shadcn/ui](https://ui.shadcn.com/) for beautiful UI components
+- [Plotly](https://plotly.com/) for interactive visualizations
+
+## 📧 Contact
+
+For questions, feedback, or support:
+- GitHub Issues: [A12N4V/EEGVis](https://github.com/A12N4V/EEGVis/issues)
+- Repository: [A12N4V/EEGVis](https://github.com/A12N4V/EEGVis)
+
 ---
 
-## Contact
-
-For questions or feedback, feel free to reach out via GitHub Issues or contact the maintainer through the repository: [A12N4V/EEGVis](https://github.com/A12N4V/EEGVis).
-
+**Built with ❤️ by the EEGVis Team**

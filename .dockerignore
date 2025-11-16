@@ -1,0 +1,7 @@
+.git
+.gitignore
+*.md
+react-frontend/
+flask-backend/
+*.png
+*.edf

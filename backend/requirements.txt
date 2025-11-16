@@ -1,0 +1,7 @@
+flask==3.0.3
+flask-cors==4.0.1
+mne==1.7.1
+numpy==1.26.4
+matplotlib==3.8.4
+scipy==1.13.0
+gunicorn==22.0.0
