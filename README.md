@@ -1,4 +1,4 @@
-# EEG Visualizer
+# Encephalic 
 
 <div align="center">
   <img src="s3.png" alt="EEG Graph" width="30%" style="display:inline-block;" />
