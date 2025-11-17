@@ -1,34 +1,38 @@
 #!/bin/bash
 
-echo "🧠 Starting Encephalic v2.0..."
+echo "Starting Encephalic v2.0..."
 echo ""
-echo "This will start the complete application stack using Docker."
+echo "This script will automatically:"
+echo "  - Install all frontend dependencies (Node.js packages)"
+echo "  - Install all backend dependencies (Python packages)"
+echo "  - Build and start the complete application stack using Docker"
 echo ""
 
 # Check if Docker is installed
 if ! command -v docker &> /dev/null; then
-    echo "❌ Error: Docker is not installed."
+    echo "Error: Docker is not installed."
     echo "Please install Docker from https://docs.docker.com/get-docker/"
     exit 1
 fi
 
 # Check if Docker Compose is installed
 if ! command -v docker-compose &> /dev/null; then
-    echo "❌ Error: Docker Compose is not installed."
+    echo "Error: Docker Compose is not installed."
     echo "Please install Docker Compose from https://docs.docker.com/compose/install/"
     exit 1
 fi
 
-echo "✅ Docker and Docker Compose are installed"
+echo "Docker and Docker Compose are installed"
 echo ""
 echo "Building and starting services..."
+echo "This may take a few minutes on first run as dependencies are installed..."
 echo ""
 
 # Start Docker Compose
 docker-compose up --build
 
 echo ""
-echo "🎉 Encephalic is now running!"
+echo "Encephalic is now running!"
 echo ""
 echo "Frontend: http://localhost:3000"
 echo "Backend API: http://localhost:5000"

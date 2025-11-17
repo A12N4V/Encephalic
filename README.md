@@ -1,4 +1,4 @@
-# Encephalic 🧠
+# Encephalic
 
 <div align="center">
 
@@ -15,7 +15,7 @@ A modern web application for processing, visualizing, and analyzing EEG data usi
 
 ---
 
-## ✨ Features
+## Features
 
 - **Real-time EEG Signal Visualization** - Interactive multi-channel EEG plots
 - **Topographic Brain Maps** - Spatial distribution of brain activity
@@ -26,9 +26,9 @@ A modern web application for processing, visualizing, and analyzing EEG data usi
 
 ---
 
-## 🚀 Quick Start (Docker - Recommended)
+## Quick Start (Recommended)
 
-The easiest way to run Encephalic is using Docker. Everything runs with one command!
+The easiest way to run Encephalic is using the provided startup script. It automatically handles all dependency installation and setup.
 
 ### Prerequisites
 - [Docker](https://docs.docker.com/get-docker/) (version 20.10 or higher)
@@ -42,21 +42,23 @@ The easiest way to run Encephalic is using Docker. Everything runs with one comm
    cd Encephalic
    ```
 
-2. **Start the application:**
-   ```bash
-   docker-compose up
-   ```
-
-   Or use the startup script:
+2. **Run the startup script:**
    ```bash
    ./start.sh
    ```
 
+   The script will automatically:
+   - Install all frontend dependencies (Node.js packages)
+   - Install all backend dependencies (Python packages)
+   - Build and start the application using Docker
+
+   **Note:** First run may take a few minutes as dependencies are downloaded and installed.
+
 3. **Access the application:**
-   - **Frontend**: Open your browser and go to **http://localhost:3000**
+   - **Frontend**: http://localhost:3000
    - **Backend API**: http://localhost:5000
 
-That's it! The application is now running. 🎉
+That's it! No manual setup required.
 
 ### Stop the Application
 Press `Ctrl+C` in the terminal, then run:
@@ -66,7 +68,9 @@ docker-compose down
 
 ---
 
-## 💻 Local Development Setup (Without Docker)
+## Advanced: Local Development Setup (Without Docker)
+
+**Note:** This section is only for advanced users who want to run the application without Docker. For most users, the Quick Start method above is recommended as it handles all setup automatically.
 
 If you prefer to run the backend and frontend separately for development:
 
@@ -131,7 +135,7 @@ Open your browser and go to:
 
 ---
 
-## 📁 Project Structure
+## Project Structure
 
 ```
 Encephalic/
@@ -154,7 +158,7 @@ Encephalic/
 
 ---
 
-## 🔌 API Endpoints
+## API Endpoints
 
 The backend provides the following REST API endpoints:
 
@@ -181,7 +185,7 @@ curl http://localhost:5000/api/eeg-topomap/5.0 --output topomap.png
 
 ---
 
-## 🛠️ Technology Stack
+## Technology Stack
 
 ### Backend
 - **Flask** 3.0 - Python web framework
@@ -204,7 +208,7 @@ curl http://localhost:5000/api/eeg-topomap/5.0 --output topomap.png
 
 ---
 
-## 🎯 Usage
+## Usage
 
 1. **View EEG Signals**: Navigate to the "Signals" tab to see real-time multi-channel EEG data
 2. **Explore Topographic Maps**: Click the "Topographic Map" tab and use the slider or play button to animate brain activity over time
@@ -213,7 +217,7 @@ curl http://localhost:5000/api/eeg-topomap/5.0 --output topomap.png
 
 ---
 
-## 📋 System Requirements
+## System Requirements
 
 ### For Docker Installation:
 - Docker 20.10+
@@ -229,7 +233,7 @@ curl http://localhost:5000/api/eeg-topomap/5.0 --output topomap.png
 
 ---
 
-## 🐛 Troubleshooting
+## Troubleshooting
 
 ### Docker Issues
 
@@ -268,7 +272,7 @@ npm install
 
 ---
 
-## 🤝 Contributing
+## Contributing
 
 Contributions are welcome! Please:
 
@@ -280,20 +284,20 @@ Contributions are welcome! Please:
 
 ---
 
-## 📄 License
+## License
 
 This project is licensed under the MIT License.
 
 ---
 
-## 👤 Author
+## Author
 
 **A12N4V**
 - GitHub: [@A12N4V](https://github.com/A12N4V)
 
 ---
 
-## 🙏 Acknowledgments
+## Acknowledgments
 
 - [MNE-Python](https://mne.tools/) for EEG analysis tools
 - [shadcn/ui](https://ui.shadcn.com/) for UI components
@@ -304,7 +308,7 @@ This project is licensed under the MIT License.
 
 <div align="center">
 
-**Made with ❤️ for neuroscience and brain research**
+**Made for neuroscience and brain research**
 
 [Report Bug](https://github.com/A12N4V/Encephalic/issues) · [Request Feature](https://github.com/A12N4V/Encephalic/issues)
 
