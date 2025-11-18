@@ -77,73 +77,6 @@ This will stop containers, remove cached layers, and rebuild everything fresh.
 
 ---
 
-## Advanced: Local Development Setup (Without Docker)
-
-**Note:** This section is only for advanced users who want to run the application without Docker. For most users, the Quick Start method above is recommended as it handles all setup automatically.
-
-If you prefer to run the backend and frontend separately for development:
-
-### Backend Setup
-
-1. **Navigate to the backend directory:**
-   ```bash
-   cd backend
-   ```
-
-2. **Create a Python virtual environment:**
-   ```bash
-   python -m venv venv
-   ```
-
-3. **Activate the virtual environment:**
-   - On Linux/Mac:
-     ```bash
-     source venv/bin/activate
-     ```
-   - On Windows:
-     ```bash
-     venv\Scripts\activate
-     ```
-
-4. **Install Python dependencies:**
-   ```bash
-   pip install -r requirements.txt
-   ```
-
-5. **Run the Flask backend:**
-   ```bash
-   python app.py
-   ```
-
-   The backend will start on **http://localhost:5000**
-
-### Frontend Setup
-
-1. **Open a new terminal and navigate to the frontend directory:**
-   ```bash
-   cd frontend
-   ```
-
-2. **Install Node.js dependencies:**
-   ```bash
-   npm install
-   ```
-
-3. **Run the Next.js development server:**
-   ```bash
-   npm run dev
-   ```
-
-   The frontend will start on **http://localhost:3000**
-
-### Access the Application
-
-Open your browser and go to:
-- **Frontend**: http://localhost:3000
-- **Backend API**: http://localhost:5000
-
----
-
 ## Project Structure
 
 ```
@@ -228,25 +161,17 @@ curl http://localhost:5000/api/eeg-topomap/5.0 --output topomap.png
 
 ## System Requirements
 
-### For Docker Installation:
 - Docker 20.10+
 - Docker Compose 1.29+
 - 4GB RAM minimum
 - Modern web browser (Chrome, Firefox, Safari, Edge)
 
-### For Local Development:
-- Python 3.11+
-- Node.js 20+
-- npm or yarn
-- 4GB RAM minimum
-
 ---
 
 ## Troubleshooting
 
-### Docker Issues
-
 **Port already in use:**
+
 If you see an error about ports 3000 or 5000 already being used:
 ```bash
 # Find and stop the process using the port
@@ -285,17 +210,9 @@ docker system prune -a
 docker-compose up --build
 ```
 
-### Local Development Issues
+**MNE data download:**
 
-**Backend: MNE data download:**
-The first time you run the backend, MNE will download sample EEG data (~1.5GB). This may take a few minutes.
-
-**Frontend: Module not found:**
-```bash
-# Clear cache and reinstall
-rm -rf node_modules package-lock.json
-npm install
-```
+The first time you run the application, MNE will download sample EEG data (~1.5GB). This may take a few minutes. The download happens automatically during container startup.
 
 ---
 

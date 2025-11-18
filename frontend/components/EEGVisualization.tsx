@@ -233,12 +233,12 @@ export default function EEGVisualization() {
                         paper_bgcolor: 'rgba(0,0,0,0)',
                         plot_bgcolor: 'rgba(0,0,0,0)',
                         xaxis: {
-                          title: 'Time (s)',
+                          title: { text: 'Time (s)' },
                           color: '#94a3b8',
                           gridcolor: '#334155',
                         },
                         yaxis: {
-                          title: 'Amplitude (µV)',
+                          title: { text: 'Amplitude (µV)' },
                           color: '#94a3b8',
                           gridcolor: '#334155',
                         },
@@ -340,12 +340,12 @@ export default function EEGVisualization() {
                         paper_bgcolor: 'rgba(0,0,0,0)',
                         plot_bgcolor: 'rgba(0,0,0,0)',
                         xaxis: {
-                          title: 'Frequency (Hz)',
+                          title: { text: 'Frequency (Hz)' },
                           color: '#94a3b8',
                           gridcolor: '#334155',
                         },
                         yaxis: {
-                          title: 'Power (µV²/Hz)',
+                          title: { text: 'Power (µV²/Hz)' },
                           type: 'log',
                           color: '#94a3b8',
                           gridcolor: '#334155',
