@@ -66,6 +66,15 @@ Press `Ctrl+C` in the terminal, then run:
 docker-compose down
 ```
 
+### Clean Build (If Needed)
+
+If you encounter build errors or need to rebuild from scratch (clearing Docker cache):
+```bash
+./clean-start.sh
+```
+
+This will stop containers, remove cached layers, and rebuild everything fresh.
+
 ---
 
 ## Advanced: Local Development Setup (Without Docker)
@@ -250,9 +259,27 @@ netstat -ano | findstr :3000
 taskkill /PID <PID> /F
 ```
 
-**Docker build fails:**
+**Docker build fails or shows "Module not found" errors:**
+
+This usually happens due to Docker using cached layers. Use the clean build script:
 ```bash
-# Clean Docker cache and rebuild
+./clean-start.sh
+```
+
+Or manually clean and rebuild:
+```bash
+# Stop containers
+docker-compose down
+
+# Build without cache
+docker-compose build --no-cache
+
+# Start containers
+docker-compose up
+```
+
+For more aggressive cleaning:
+```bash
 docker-compose down
 docker system prune -a
 docker-compose up --build
