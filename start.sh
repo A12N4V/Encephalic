@@ -24,12 +24,19 @@ fi
 
 echo "Docker and Docker Compose are installed"
 echo ""
+echo "Stopping any existing containers..."
+docker-compose down 2>/dev/null || true
+echo ""
 echo "Building and starting services..."
 echo "This may take a few minutes on first run as dependencies are installed..."
 echo ""
 
-# Start Docker Compose
-docker-compose up --build
+# Build with no cache to ensure latest changes are applied
+# This prevents Docker from using outdated cached layers
+docker-compose build --no-cache
+
+# Start the services
+docker-compose up
 
 echo ""
 echo "Encephalic is now running!"
