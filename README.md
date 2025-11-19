@@ -172,9 +172,13 @@ curl http://localhost:5000/api/eeg-topomap/5.0 --output topomap.png
 
 **Port already in use:**
 
-If you see an error about ports 3000 or 5000 already being used:
+If you see an error about ports 3000 or 5000 already being used, use the cleanup script:
 ```bash
-# Find and stop the process using the port
+./cleanup-ports.sh
+```
+
+Or manually find and stop the process:
+```bash
 # On Linux/Mac:
 lsof -ti:3000 | xargs kill -9
 lsof -ti:5000 | xargs kill -9
@@ -183,6 +187,15 @@ lsof -ti:5000 | xargs kill -9
 netstat -ano | findstr :3000
 taskkill /PID <PID> /F
 ```
+
+**Check container logs:**
+
+If the application fails to start, check the Docker logs:
+```bash
+./check-logs.sh
+```
+
+This will show you the backend and frontend container logs, status, and port usage.
 
 **Docker build fails or shows "Module not found" errors:**
 

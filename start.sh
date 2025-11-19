@@ -54,15 +54,37 @@ echo ""
 
 # Build with no cache to ensure latest changes are applied
 # This prevents Docker from using outdated cached layers
-docker-compose build --no-cache
-
-# Start the services
-docker-compose up
+if ! docker-compose build --no-cache; then
+    echo ""
+    echo "ERROR: Docker build failed!"
+    echo "Please check the error messages above."
+    exit 1
+fi
 
 echo ""
-echo "Encephalic is now running!"
+echo "Build successful! Starting services..."
 echo ""
+echo "Encephalic is starting!"
 echo "Frontend: http://localhost:3000"
 echo "Backend API: http://localhost:5000"
 echo ""
+echo "NOTE: Backend may take 30-60 seconds for first startup (downloading MNE sample data)"
+echo "If containers fail to start, run: ./check-logs.sh"
+echo ""
 echo "Press Ctrl+C to stop the application"
+echo ""
+
+# Start the services and capture exit code
+docker-compose up
+EXIT_CODE=$?
+
+if [ $EXIT_CODE -ne 0 ] && [ $EXIT_CODE -ne 130 ]; then
+    echo ""
+    echo "ERROR: Docker Compose exited with code $EXIT_CODE"
+    echo ""
+    echo "Troubleshooting steps:"
+    echo "  1. Run ./cleanup-ports.sh to free up ports"
+    echo "  2. Run ./check-logs.sh to see container logs"
+    echo "  3. Check for port conflicts: lsof -i:5000"
+    exit $EXIT_CODE
+fi
