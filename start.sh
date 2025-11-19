@@ -25,12 +25,28 @@ fi
 echo "Docker and Docker Compose are installed"
 echo ""
 
-# Stop any existing Docker containers first (they might be using the ports)
-echo "Stopping any existing Docker containers..."
-docker-compose down 2>/dev/null || true
+# Aggressive cleanup of existing Docker resources
+echo "Stopping and cleaning up any existing Docker containers..."
+
+# Stop and remove containers with docker-compose (with volumes)
+docker-compose down -v 2>/dev/null || true
+sleep 1
+
+# Force stop and remove specific containers
 docker stop encephalic-frontend encephalic-backend 2>/dev/null || true
-docker rm encephalic-frontend encephalic-backend 2>/dev/null || true
-sleep 2
+docker rm -f encephalic-frontend encephalic-backend 2>/dev/null || true
+sleep 1
+
+# Remove the encephalic network if it exists (this can hold port bindings)
+echo "Cleaning up Docker networks..."
+docker network rm encephalic-network 2>/dev/null || true
+sleep 1
+
+# Kill docker-proxy processes that might be holding ports
+echo "Cleaning up Docker proxy processes..."
+pkill -9 -f "docker-proxy.*5000" 2>/dev/null || true
+pkill -9 -f "docker-proxy.*3000" 2>/dev/null || true
+sleep 1
 
 # Kill any remaining processes using ports 3000 and 5000
 echo "Checking for processes using ports 3000 and 5000..."
@@ -39,14 +55,49 @@ for port in 3000 5000; do
     if command -v lsof &>/dev/null && lsof -ti:$port &>/dev/null; then
         echo "  Stopping process on port $port (using lsof)..."
         lsof -ti:$port | xargs kill -9 2>/dev/null || true
+        sleep 1
     fi
     # Try fuser as fallback
     if command -v fuser &>/dev/null && fuser $port/tcp &>/dev/null 2>&1; then
         echo "  Stopping process on port $port (using fuser)..."
-        fuser -k $port/tcp 2>/dev/null || true
+        fuser -k -9 $port/tcp 2>/dev/null || true
+        sleep 1
+    fi
+    # Try netstat/ss to find processes
+    if command -v ss &>/dev/null; then
+        pid=$(ss -lptn "sport = :$port" 2>/dev/null | grep -oP 'pid=\K[0-9]+' | head -1)
+        if [ -n "$pid" ]; then
+            echo "  Found process $pid on port $port, killing..."
+            kill -9 $pid 2>/dev/null || true
+            sleep 1
+        fi
     fi
 done
-sleep 1
+
+# Wait for ports to be released
+echo "Waiting for ports to be fully released..."
+sleep 3
+
+# Verify ports are free
+echo "Verifying ports are available..."
+ports_in_use=false
+for port in 3000 5000; do
+    if command -v lsof &>/dev/null && lsof -ti:$port &>/dev/null; then
+        echo "ERROR: Port $port is still in use!"
+        ports_in_use=true
+    fi
+done
+
+if [ "$ports_in_use" = true ]; then
+    echo ""
+    echo "Ports are still in use. Try these solutions:"
+    echo "  1. Run: sudo lsof -ti:3000 | xargs kill -9 && sudo lsof -ti:5000 | xargs kill -9"
+    echo "  2. Restart Docker: sudo systemctl restart docker (Linux) or restart Docker Desktop (Mac/Windows)"
+    echo "  3. Use the cleanup script: ./cleanup-ports.sh"
+    exit 1
+fi
+
+echo "Ports are available!"
 echo ""
 echo "Building and starting services..."
 echo "This may take a few minutes on first run as dependencies are installed..."
