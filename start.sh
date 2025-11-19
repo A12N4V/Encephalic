@@ -25,19 +25,28 @@ fi
 echo "Docker and Docker Compose are installed"
 echo ""
 
-# Kill any processes using ports 3000 and 5000
-echo "Checking for processes using ports 3000 and 5000..."
-if lsof -ti:3000 &>/dev/null; then
-    echo "  Stopping process on port 3000..."
-    lsof -ti:3000 | xargs kill -9 2>/dev/null || true
-fi
-if lsof -ti:5000 &>/dev/null; then
-    echo "  Stopping process on port 5000..."
-    lsof -ti:5000 | xargs kill -9 2>/dev/null || true
-fi
-
-echo "Stopping any existing containers..."
+# Stop any existing Docker containers first (they might be using the ports)
+echo "Stopping any existing Docker containers..."
 docker-compose down 2>/dev/null || true
+docker stop encephalic-frontend encephalic-backend 2>/dev/null || true
+docker rm encephalic-frontend encephalic-backend 2>/dev/null || true
+sleep 2
+
+# Kill any remaining processes using ports 3000 and 5000
+echo "Checking for processes using ports 3000 and 5000..."
+for port in 3000 5000; do
+    # Try lsof first
+    if command -v lsof &>/dev/null && lsof -ti:$port &>/dev/null; then
+        echo "  Stopping process on port $port (using lsof)..."
+        lsof -ti:$port | xargs kill -9 2>/dev/null || true
+    fi
+    # Try fuser as fallback
+    if command -v fuser &>/dev/null && fuser $port/tcp &>/dev/null 2>&1; then
+        echo "  Stopping process on port $port (using fuser)..."
+        fuser -k $port/tcp 2>/dev/null || true
+    fi
+done
+sleep 1
 echo ""
 echo "Building and starting services..."
 echo "This may take a few minutes on first run as dependencies are installed..."
