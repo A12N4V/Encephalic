@@ -170,18 +170,41 @@ curl http://localhost:5000/api/eeg-topomap/5.0 --output topomap.png
 
 ## Troubleshooting
 
-**Port already in use:**
+**Port already in use error from Docker:**
 
-If you see an error about ports 3000 or 5000 already being used:
+If you see `Error response from daemon: ports are not available: exposing port TCP 0.0.0.0:5000`:
+
+This is usually caused by Docker having stale port bindings. The `start.sh` script includes automatic cleanup, but if the issue persists:
+
+**Option 1 - Use the cleanup script:**
 ```bash
-# Find and stop the process using the port
-# On Linux/Mac:
+./cleanup-ports.sh
+```
+
+**Option 2 - Manual cleanup:**
+```bash
+# Stop all Docker containers and networks
+docker-compose down -v
+docker network rm encephalic-network 2>/dev/null || true
+
+# Kill docker-proxy processes
+pkill -9 -f "docker-proxy.*5000"
+pkill -9 -f "docker-proxy.*3000"
+
+# Kill any processes on the ports
 lsof -ti:3000 | xargs kill -9
 lsof -ti:5000 | xargs kill -9
+```
 
-# On Windows:
-netstat -ano | findstr :3000
-taskkill /PID <PID> /F
+**Option 3 - Restart Docker:**
+
+If cleanup doesn't work, restart the Docker daemon:
+```bash
+# Linux
+sudo systemctl restart docker
+
+# Mac/Windows
+# Restart Docker Desktop from the system tray
 ```
 
 **Docker build fails or shows "Module not found" errors:**
