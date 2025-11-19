@@ -25,7 +25,15 @@ fi
 echo "Docker and Docker Compose are installed"
 echo ""
 
-# Kill any processes using ports 3000 and 5000
+# Step 1: Stop and remove any existing containers first
+echo "Stopping any existing containers..."
+docker-compose down --remove-orphans 2>/dev/null || true
+
+# Step 2: Force remove specific containers if they still exist
+echo "Removing any lingering Encephalic containers..."
+docker rm -f encephalic-backend encephalic-frontend 2>/dev/null || true
+
+# Step 3: Kill any processes using ports 3000 and 5000
 echo "Checking for processes using ports 3000 and 5000..."
 if lsof -ti:3000 &>/dev/null; then
     echo "  Stopping process on port 3000..."
@@ -36,8 +44,9 @@ if lsof -ti:5000 &>/dev/null; then
     lsof -ti:5000 | xargs kill -9 2>/dev/null || true
 fi
 
-echo "Stopping any existing containers..."
-docker-compose down 2>/dev/null || true
+# Step 4: Wait a moment for ports to be fully released
+sleep 2
+
 echo ""
 echo "Building and starting services..."
 echo "This may take a few minutes on first run as dependencies are installed..."
