@@ -74,26 +74,81 @@ for port in 3000 5000; do
     fi
 done
 
-# Wait for ports to be released
+# Wait for ports to be released (sockets may be in TIME_WAIT state)
 echo "Waiting for ports to be fully released..."
-sleep 3
+sleep 5
 
-# Verify ports are free
+# Function to check if port can be bound (more reliable than lsof)
+check_port_available() {
+    local port=$1
+    # Try to bind to the port using Python (most reliable method)
+    python3 -c "import socket; s = socket.socket(); s.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1); s.bind(('0.0.0.0', $port)); s.close()" 2>/dev/null
+    return $?
+}
+
+# Verify ports are free by actually trying to bind to them (with retry logic)
 echo "Verifying ports are available..."
+max_retries=3
+retry_count=0
 ports_in_use=false
-for port in 3000 5000; do
-    if command -v lsof &>/dev/null && lsof -ti:$port &>/dev/null; then
-        echo "ERROR: Port $port is still in use!"
-        ports_in_use=true
+
+while [ $retry_count -lt $max_retries ]; do
+    ports_in_use=false
+
+    for port in 3000 5000; do
+        if ! check_port_available $port; then
+            if [ $retry_count -eq 0 ]; then
+                echo "  Port $port is not yet available (may be in TIME_WAIT state)..."
+            fi
+            ports_in_use=true
+        else
+            if [ $retry_count -eq 0 ]; then
+                echo "  Port $port is available"
+            fi
+        fi
+    done
+
+    # If all ports are available, break out of retry loop
+    if [ "$ports_in_use" = false ]; then
+        if [ $retry_count -gt 0 ]; then
+            echo "  All ports are now available!"
+        fi
+        break
+    fi
+
+    # If we haven't exhausted retries, wait and try again
+    retry_count=$((retry_count + 1))
+    if [ $retry_count -lt $max_retries ]; then
+        wait_time=$((5 * retry_count))
+        echo "  Waiting ${wait_time} seconds for ports to be released (attempt $((retry_count + 1))/$max_retries)..."
+        sleep $wait_time
     fi
 done
 
+# If ports are still in use after all retries, show error
 if [ "$ports_in_use" = true ]; then
     echo ""
-    echo "Ports are still in use. Try these solutions:"
-    echo "  1. Run: sudo lsof -ti:3000 | xargs kill -9 && sudo lsof -ti:5000 | xargs kill -9"
-    echo "  2. Restart Docker: sudo systemctl restart docker (Linux) or restart Docker Desktop (Mac/Windows)"
-    echo "  3. Use the cleanup script: ./cleanup-ports.sh"
+    echo "ERROR: Ports are still in use after cleanup attempts!"
+    echo ""
+    # Show what's using the ports for debugging
+    for port in 3000 5000; do
+        if ! check_port_available $port; then
+            echo "Port $port details:"
+            if command -v lsof &>/dev/null; then
+                lsof -i :$port 2>/dev/null | head -5 || echo "  No active process found (socket may be in TIME_WAIT state)"
+            fi
+            if command -v netstat &>/dev/null; then
+                netstat -an 2>/dev/null | grep ":$port " | head -3 || true
+            fi
+            echo ""
+        fi
+    done
+
+    echo "Try these solutions:"
+    echo "  1. Wait 30-60 seconds for sockets in TIME_WAIT state to clear, then run this script again"
+    echo "  2. Run: lsof -ti:3000 -ti:5000 | xargs kill -9"
+    echo "  3. Restart Docker: sudo systemctl restart docker (Linux) or restart Docker Desktop (Mac/Windows)"
+    echo "  4. Reboot your system to force clear all socket states"
     exit 1
 fi
 
