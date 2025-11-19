@@ -24,6 +24,18 @@ fi
 
 echo "Docker and Docker Compose are installed"
 echo ""
+
+# Kill any processes using ports 3000 and 5000
+echo "Checking for processes using ports 3000 and 5000..."
+if lsof -ti:3000 &>/dev/null; then
+    echo "  Stopping process on port 3000..."
+    lsof -ti:3000 | xargs kill -9 2>/dev/null || true
+fi
+if lsof -ti:5000 &>/dev/null; then
+    echo "  Stopping process on port 5000..."
+    lsof -ti:5000 | xargs kill -9 2>/dev/null || true
+fi
+
 echo "Stopping any existing containers..."
 docker-compose down 2>/dev/null || true
 echo ""
