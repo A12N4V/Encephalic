@@ -2,7 +2,7 @@
 
 echo "=== Encephalic Port Cleanup Utility ==="
 echo ""
-echo "This script will forcefully clean up ports 3000 and 5000"
+echo "This script will forcefully clean up ports 80 and 8000"
 echo ""
 
 # Stop Docker containers
@@ -17,12 +17,12 @@ docker network rm encephalic-network 2>/dev/null || true
 
 # Kill docker-proxy processes
 echo "Killing docker-proxy processes..."
-pkill -9 -f "docker-proxy.*5000" 2>/dev/null || true
-pkill -9 -f "docker-proxy.*3000" 2>/dev/null || true
+pkill -9 -f "docker-proxy.*8000" 2>/dev/null || true
+pkill -9 -f "docker-proxy.*80" 2>/dev/null || true
 sleep 1
 
 # Clean up ports
-for port in 3000 5000; do
+for port in 80 8000; do
     echo ""
     echo "Cleaning up port $port..."
 
@@ -82,7 +82,7 @@ all_clear=true
 while [ $retry_count -lt $max_retries ]; do
     all_clear=true
 
-    for port in 3000 5000; do
+    for port in 80 8000; do
         if ! check_port_available $port; then
             if [ $retry_count -eq 0 ]; then
                 echo "  Port $port is not yet available (may be in TIME_WAIT state)..."
@@ -119,7 +119,7 @@ else
     echo "⚠ Some ports are still in use after cleanup attempts."
     echo ""
     # Show detailed info for debugging
-    for port in 3000 5000; do
+    for port in 80 8000; do
         if ! check_port_available $port; then
             echo "Port $port details:"
             if command -v lsof &>/dev/null; then
@@ -134,7 +134,7 @@ else
 
     echo "Try these solutions:"
     echo "  1. Wait 30-60 seconds for sockets in TIME_WAIT state to clear, then run this script again"
-    echo "  2. Run: lsof -ti:3000 -ti:5000 | xargs kill -9"
+    echo "  2. Run: lsof -ti:80 -ti:8000 | xargs kill -9"
     echo "  3. Restart Docker to clear all port bindings"
     echo "  4. Reboot your system to force clear all socket states"
 fi

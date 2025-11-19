@@ -44,13 +44,13 @@ sleep 1
 
 # Kill docker-proxy processes that might be holding ports
 echo "Cleaning up Docker proxy processes..."
-pkill -9 -f "docker-proxy.*5000" 2>/dev/null || true
-pkill -9 -f "docker-proxy.*3000" 2>/dev/null || true
+pkill -9 -f "docker-proxy.*8000" 2>/dev/null || true
+pkill -9 -f "docker-proxy.*80" 2>/dev/null || true
 sleep 1
 
-# Kill any remaining processes using ports 3000 and 5000
-echo "Checking for processes using ports 3000 and 5000..."
-for port in 3000 5000; do
+# Kill any remaining processes using ports 80 and 8000
+echo "Checking for processes using ports 80 and 8000..."
+for port in 80 8000; do
     # Try lsof first
     if command -v lsof &>/dev/null && lsof -ti:$port &>/dev/null; then
         echo "  Stopping process on port $port (using lsof)..."
@@ -95,7 +95,7 @@ ports_in_use=false
 while [ $retry_count -lt $max_retries ]; do
     ports_in_use=false
 
-    for port in 3000 5000; do
+    for port in 80 8000; do
         if ! check_port_available $port; then
             if [ $retry_count -eq 0 ]; then
                 echo "  Port $port is not yet available (may be in TIME_WAIT state)..."
@@ -131,7 +131,7 @@ if [ "$ports_in_use" = true ]; then
     echo "ERROR: Ports are still in use after cleanup attempts!"
     echo ""
     # Show what's using the ports for debugging
-    for port in 3000 5000; do
+    for port in 80 8000; do
         if ! check_port_available $port; then
             echo "Port $port details:"
             if command -v lsof &>/dev/null; then
@@ -146,7 +146,7 @@ if [ "$ports_in_use" = true ]; then
 
     echo "Try these solutions:"
     echo "  1. Wait 30-60 seconds for sockets in TIME_WAIT state to clear, then run this script again"
-    echo "  2. Run: lsof -ti:3000 -ti:5000 | xargs kill -9"
+    echo "  2. Run: lsof -ti:80 -ti:8000 | xargs kill -9"
     echo "  3. Restart Docker: sudo systemctl restart docker (Linux) or restart Docker Desktop (Mac/Windows)"
     echo "  4. Reboot your system to force clear all socket states"
     exit 1
@@ -168,7 +168,7 @@ docker-compose up
 echo ""
 echo "Encephalic is now running!"
 echo ""
-echo "Frontend: http://localhost:3000"
-echo "Backend API: http://localhost:5000"
+echo "Frontend: http://localhost"
+echo "Backend API: http://localhost:8000"
 echo ""
 echo "Press Ctrl+C to stop the application"
