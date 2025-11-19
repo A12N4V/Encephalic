@@ -55,10 +55,12 @@ The easiest way to run Encephalic is using the provided startup script. It autom
    **Note:** First run may take a few minutes as dependencies are downloaded and installed.
 
 3. **Access the application:**
-   - **Frontend**: http://localhost:3000
-   - **Backend API**: http://localhost:5000
+   - **Frontend**: http://localhost:3001
+   - **Backend API**: http://localhost:5001
 
 That's it! No manual setup required.
+
+**Note:** Using ports 3001 and 5001 to avoid common port conflicts.
 
 ### Stop the Application
 Press `Ctrl+C` in the terminal, then run:
@@ -108,12 +110,12 @@ The backend provides the following REST API endpoints:
 
 **Get EEG Data:**
 ```bash
-curl http://localhost:5000/api/eeg-data?tmin=0&tmax=10
+curl http://localhost:5001/api/eeg-data?tmin=0&tmax=10
 ```
 
 **Get Topographic Map:**
 ```bash
-curl http://localhost:5000/api/eeg-topomap/5.0 --output topomap.png
+curl http://localhost:5001/api/eeg-topomap/5.0 --output topomap.png
 ```
 
 ---
@@ -163,15 +165,16 @@ curl http://localhost:5000/api/eeg-topomap/5.0 --output topomap.png
 
 **Port already in use:**
 
-If you see an error about ports 3000 or 5000 already being used:
+The script automatically handles port conflicts, but if you see errors about ports being used:
 ```bash
+# The app uses ports 3001 and 5001 (to avoid common conflicts)
 # Find and stop the process using the port
 # On Linux/Mac:
-lsof -ti:3000 | xargs kill -9
-lsof -ti:5000 | xargs kill -9
+lsof -ti:3001 | xargs kill -9
+lsof -ti:5001 | xargs kill -9
 
 # On Windows:
-netstat -ano | findstr :3000
+netstat -ano | findstr :3001
 taskkill /PID <PID> /F
 ```
 

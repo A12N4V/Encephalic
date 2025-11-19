@@ -5,7 +5,7 @@ services:
       dockerfile: Dockerfile
     container_name: encephalic-backend
     ports:
-      - "5000:5000"
+      - "5001:5000"
     environment:
       - FLASK_ENV=production
       - PYTHONUNBUFFERED=1
@@ -23,7 +23,7 @@ services:
       dockerfile: Dockerfile
     container_name: encephalic-frontend
     ports:
-      - "3000:3000"
+      - "3001:3000"
     environment:
       - NEXT_PUBLIC_API_URL=http://backend:5000
     depends_on:
