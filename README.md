@@ -55,8 +55,8 @@ The easiest way to run Encephalic is using the provided startup script. It autom
    **Note:** First run may take a few minutes as dependencies are downloaded and installed.
 
 3. **Access the application:**
-   - **Frontend**: http://localhost:3000
-   - **Backend API**: http://localhost:5000
+   - **Frontend**: http://localhost
+   - **Backend API**: http://localhost:8000
 
 That's it! No manual setup required.
 
@@ -117,12 +117,12 @@ The backend provides the following REST API endpoints:
 
 **Get EEG Data:**
 ```bash
-curl http://localhost:5000/api/eeg-data?tmin=0&tmax=10
+curl http://localhost:8000/api/eeg-data?tmin=0&tmax=10
 ```
 
 **Get Topographic Map:**
 ```bash
-curl http://localhost:5000/api/eeg-topomap/5.0 --output topomap.png
+curl http://localhost:8000/api/eeg-topomap/5.0 --output topomap.png
 ```
 
 ---
@@ -172,7 +172,7 @@ curl http://localhost:5000/api/eeg-topomap/5.0 --output topomap.png
 
 **Port already in use error from Docker:**
 
-If you see `Error response from daemon: ports are not available: exposing port TCP 0.0.0.0:5000`:
+If you see `Error response from daemon: ports are not available: exposing port TCP 0.0.0.0:80` or `0.0.0.0:8000`:
 
 This is usually caused by Docker having stale port bindings. The `start.sh` script includes automatic cleanup, but if the issue persists:
 
@@ -188,12 +188,12 @@ docker-compose down -v
 docker network rm encephalic-network 2>/dev/null || true
 
 # Kill docker-proxy processes
-pkill -9 -f "docker-proxy.*5000"
-pkill -9 -f "docker-proxy.*3000"
+pkill -9 -f "docker-proxy.*8000"
+pkill -9 -f "docker-proxy.*80"
 
 # Kill any processes on the ports
-lsof -ti:3000 | xargs kill -9
-lsof -ti:5000 | xargs kill -9
+lsof -ti:80 | xargs kill -9
+lsof -ti:8000 | xargs kill -9
 ```
 
 **Option 3 - Restart Docker:**

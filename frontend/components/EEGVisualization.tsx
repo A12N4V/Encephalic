@@ -11,7 +11,7 @@ import axios from 'axios'
 
 const Plot = dynamic(() => import('react-plotly.js'), { ssr: false })
 
-const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000'
+const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8000'
 
 interface EEGData {
   labels: string[]
