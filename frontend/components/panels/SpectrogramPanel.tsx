@@ -36,7 +36,7 @@ export function SpectrogramPanel({ data, loading }: SpectrogramPanelProps) {
       colorbar: {
         title: {
           text: 'Power (dB)',
-          side: 'right'
+          side: 'right' as const
         },
         thickness: 15,
         len: 0.7
