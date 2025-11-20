@@ -49,7 +49,7 @@ export function ConnectivityPanel({
       colorbar: {
         title: {
           text: analysisType === 'correlation' ? 'Correlation' : 'Coherence',
-          side: 'right'
+          side: 'right' as const
         },
         thickness: 15,
         len: 0.7
