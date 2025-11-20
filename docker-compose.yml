@@ -1,17 +1,15 @@
 version: '3.8'
 
 services:
-  # Django Backend with MNE-Python (Optimized v2.0)
+  # Flask Backend with MNE-Python (Lightweight & Efficient)
   backend:
     build:
-      context: ./backend_django
+      context: ./backend
       dockerfile: Dockerfile
-    container_name: encephalic-backend-django
+    container_name: encephalic-backend-flask
     ports:
       - "8000:8000"
     environment:
-      - DEBUG=True
-      - DJANGO_SECRET_KEY=dev-secret-key-change-in-production
       - PYTHONUNBUFFERED=1
     volumes:
       - mne_data:/root/mne_data
@@ -21,7 +19,7 @@ services:
       interval: 30s
       timeout: 10s
       retries: 3
-      start_period: 60s
+      start_period: 40s
     networks:
       - encephalic-network
 

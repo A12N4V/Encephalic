@@ -4,10 +4,10 @@
 
 **Advanced EEG Analysis Terminal**
 
-A professional-grade EEG analysis platform with terminal-style interface for processing, visualizing, and analyzing brain signals using Django, MNE-Python, Next.js, and shadcn/ui.
+A professional-grade EEG analysis platform with terminal-style interface for processing, visualizing, and analyzing brain signals using Flask, MNE-Python, Next.js, and shadcn/ui.
 
 [![Next.js](https://img.shields.io/badge/Next.js-14-black)](https://nextjs.org/)
-[![Django](https://img.shields.io/badge/Django-5.0-green)](https://www.djangoproject.com/)
+[![Flask](https://img.shields.io/badge/Flask-3.0-green)](https://flask.palletsprojects.com/)
 [![MNE-Python](https://img.shields.io/badge/MNE-1.6-orange)](https://mne.tools/)
 [![Docker](https://img.shields.io/badge/Docker-Ready-2496ED)](https://www.docker.com/)
 
@@ -30,14 +30,14 @@ A professional-grade EEG analysis platform with terminal-style interface for pro
 - **Color-Coded Data** - Different colors for different analysis panels
 - **Responsive Layout** - Adaptive grid system for any screen size
 
-### Performance Optimizations (v2.0)
-- **Django Backend** - Professional REST API with Django REST Framework
-- **Aggressive Caching** - In-memory caching for all expensive operations
+### Performance Optimizations
+- **Flask Backend** - Lightweight and efficient REST API
+- **Aggressive Caching** - LRU caching for all expensive operations
 - **Debounced Requests** - 200ms debounce on topomap slider (10x fewer requests)
 - **Memoized Rendering** - React.useMemo for plot data (prevents unnecessary re-renders)
-- **GZip Compression** - Automatic response compression
+- **Gunicorn Workers** - Multi-worker production server
 - **Time-Window Fetching** - Only fetch visible data ranges
-- **5-10x Faster** - Compared to previous version
+- **Fast & Efficient** - Minimal overhead for maximum performance
 
 ---
 
@@ -96,20 +96,12 @@ This will stop containers, remove cached layers, and rebuild everything fresh.
 
 ```
 Encephalic/
-├── backend_django/             # Django REST API (v2.0)
-│   ├── encephalic/            # Django project settings
-│   │   ├── settings.py        # Configuration with caching
-│   │   ├── urls.py            # URL routing
-│   │   └── wsgi.py            # WSGI application
-│   ├── eeg_api/               # EEG API app
-│   │   ├── views.py           # REST API endpoints
-│   │   ├── services.py        # MNE-Python processing layer
-│   │   ├── urls.py            # API routes
-│   │   └── exceptions.py      # Error handling
+├── backend/                   # Flask REST API (Lightweight)
+│   ├── app.py                 # Main Flask application
 │   ├── requirements.txt       # Python dependencies
 │   └── Dockerfile             # Docker configuration
 │
-├── frontend/                  # Next.js Frontend (v2.0)
+├── frontend/                  # Next.js Frontend
 │   ├── app/                   # Next.js app directory
 │   │   ├── page.tsx           # Main page
 │   │   └── globals.css        # Terminal-style CSS
@@ -162,15 +154,15 @@ curl http://localhost:8000/api/eeg-topomap/5.0 --output topomap.png
 
 ## 🛠️ Technology Stack
 
-### Backend (Django v2.0)
-- **Django** 5.0 - Professional Python web framework
-- **Django REST Framework** 3.14 - REST API toolkit
+### Backend (Flask)
+- **Flask** 3.0 - Lightweight Python web framework
+- **Flask-CORS** 4.0 - Cross-origin resource sharing
 - **MNE-Python** 1.6 - EEG/MEG analysis library
 - **NumPy** 1.26 - Numerical computing
 - **SciPy** 1.11 - Scientific computing
 - **Matplotlib** 3.8 - Brain topomap visualization
 - **Gunicorn** 21.2 - Production WSGI server
-- **In-Memory Caching** - High-performance result caching
+- **LRU Caching** - High-performance result caching
 
 ### Frontend (Next.js v2.0)
 - **Next.js** 14 - React framework with SSR
