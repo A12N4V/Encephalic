@@ -8,7 +8,6 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Tag, Plus, Trash2, Edit2, Bookmark } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { Badge } from '@/components/ui/badge'
-import { ScrollArea } from '@/components/ui/scroll-area'
 
 interface Event {
   id: string
@@ -61,7 +60,7 @@ export function EventMarkingPanel({
 
   return (
     <Card className="bg-white/80 dark:bg-slate-900/80 backdrop-blur border-slate-200 dark:border-slate-800 shadow-lg hover:shadow-xl transition-shadow duration-300 h-full">
-      <CardHeader className="border-b border-slate-200 dark:border-slate-800 pb-4">
+      <CardHeader className="border-b border-slate-200 dark:border-slate-800 pb-2">
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-3">
             <div className="p-2 bg-orange-100 dark:bg-orange-950/30 rounded-lg">
@@ -82,8 +81,8 @@ export function EventMarkingPanel({
         </div>
       </CardHeader>
 
-      <CardContent className="p-4">
-        <div className="space-y-4">
+      <CardContent className="p-2">
+        <div className="space-y-2">
           {/* Add Event Form */}
           <div className="p-3 bg-slate-50 dark:bg-slate-950/50 rounded-lg border border-slate-200 dark:border-slate-800">
             <h4 className="text-xs font-semibold text-slate-700 dark:text-slate-300 mb-2">
@@ -134,7 +133,7 @@ export function EventMarkingPanel({
             <h4 className="text-xs font-semibold text-slate-700 dark:text-slate-300 mb-2">
               Marked Events
             </h4>
-            <ScrollArea className="h-64">
+            <div>
               <div className="space-y-2">
                 {sortedEvents.length === 0 ? (
                   <div className="text-center py-8 text-slate-400 text-sm">
@@ -184,7 +183,7 @@ export function EventMarkingPanel({
                   })
                 )}
               </div>
-            </ScrollArea>
+            </div>
           </div>
 
           {/* Educational Info */}

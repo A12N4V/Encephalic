@@ -83,7 +83,7 @@ export function ConnectivityPanel({
 
   return (
     <Card className="bg-white/80 dark:bg-slate-900/80 backdrop-blur border-slate-200 dark:border-slate-800 shadow-lg hover:shadow-xl transition-shadow duration-300 h-full">
-      <CardHeader className="border-b border-slate-200 dark:border-slate-800 pb-4">
+      <CardHeader className="border-b border-slate-200 dark:border-slate-800 pb-2">
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-3">
             <div className="p-2 bg-cyan-100 dark:bg-cyan-950/30 rounded-lg">
@@ -104,20 +104,20 @@ export function ConnectivityPanel({
         </div>
       </CardHeader>
 
-      <CardContent className="p-4">
+      <CardContent className="p-2">
         {loading ? (
-          <div className="flex flex-col items-center justify-center h-80 gap-3">
+          <div className="flex flex-col items-center justify-center h-48 gap-3">
             <Loader2 className="w-8 h-8 text-cyan-600 dark:text-cyan-400 animate-spin" />
             <p className="text-sm text-slate-600 dark:text-slate-400">Computing connectivity...</p>
           </div>
         ) : data ? (
-          <div className="space-y-4">
+          <div className="space-y-2">
             <div className="bg-slate-50/50 dark:bg-slate-950/50 rounded-lg p-3 border border-slate-200 dark:border-slate-800">
               <Plot
                 data={plotData}
                 layout={{
                   autosize: true,
-                  height: 400,
+                  height: 240,
                   paper_bgcolor: 'rgba(0,0,0,0)',
                   plot_bgcolor: 'rgba(0,0,0,0)',
                   xaxis: {
@@ -201,7 +201,7 @@ export function ConnectivityPanel({
             </div>
           </div>
         ) : (
-          <div className="flex items-center justify-center h-80 text-slate-400">
+          <div className="flex items-center justify-center h-48 text-slate-400">
             No connectivity data available
           </div>
         )}
