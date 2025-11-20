@@ -32,24 +32,24 @@
   }
 
   .dark {
-    --background: 222 47% 11%;
+    --background: 0 0% 0%;
     --foreground: 210 40% 98%;
-    --card: 222 47% 15%;
+    --card: 0 0% 5%;
     --card-foreground: 210 40% 98%;
-    --popover: 222 47% 15%;
+    --popover: 0 0% 5%;
     --popover-foreground: 210 40% 98%;
     --primary: 217 91% 60%;
-    --primary-foreground: 222 47% 11%;
-    --secondary: 217 32% 17%;
+    --primary-foreground: 0 0% 0%;
+    --secondary: 0 0% 10%;
     --secondary-foreground: 210 40% 98%;
-    --muted: 217 32% 17%;
+    --muted: 0 0% 10%;
     --muted-foreground: 215 20% 65%;
-    --accent: 217 32% 17%;
+    --accent: 0 0% 10%;
     --accent-foreground: 210 40% 98%;
     --destructive: 0 62% 30%;
     --destructive-foreground: 210 40% 98%;
-    --border: 217 32% 27%;
-    --input: 217 32% 27%;
+    --border: 0 0% 15%;
+    --input: 0 0% 15%;
     --ring: 224 76% 48%;
     --chart-1: 217 91% 60%;
     --chart-2: 262 90% 70%;
@@ -78,7 +78,7 @@
   }
 
   .dark .glass {
-    background: rgba(30, 41, 59, 0.8);
+    background: rgba(0, 0, 0, 0.8);
     border: 1px solid rgba(255, 255, 255, 0.1);
   }
 
