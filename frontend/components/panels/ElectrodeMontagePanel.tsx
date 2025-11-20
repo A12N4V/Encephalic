@@ -23,7 +23,7 @@ interface ElectrodeMontageData {
   selectedChannels?: string[]
 }
 
-interface ElectrodeMontage PanelProps {
+interface ElectrodeMontageProps {
   data: ElectrodeMontageData | null
   loading: boolean
   onChannelClick?: (channel: string) => void
@@ -33,7 +33,7 @@ export function ElectrodeMontagePanel({
   data,
   loading,
   onChannelClick
-}: ElectrodeMontage PanelProps) {
+}: ElectrodeMontageProps) {
   const plotData = useMemo(() => {
     if (!data) return []
 
