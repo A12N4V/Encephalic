@@ -5,8 +5,8 @@ import "./globals.css"
 const inter = Inter({ subsets: ["latin"] })
 
 export const metadata: Metadata = {
-  title: "Encephalic - EEG Visualization Platform",
-  description: "Advanced EEG data visualization and analysis platform powered by MNE Python",
+  title: "Encephalic - Comprehensive MNE Python UI",
+  description: "Streamlined comprehensive UI for MNE Python EEG analysis - ICA, Source Localization, Connectivity, Epochs & more",
 }
 
 export default function RootLayout({
