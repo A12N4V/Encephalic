@@ -26,17 +26,24 @@ CORS(app)
 # Configuration
 app.config['MAX_CONTENT_LENGTH'] = 16 * 1024 * 1024  # 16MB max file size
 
-# Load MNE sample dataset
+# Initialize app
 logger.info("Initializing Encephalic Backend")
-data_path = mne.datasets.sample.data_path()
-subjects_dir = os.path.join(data_path, "subjects")
-logger.info(f"Data path: {data_path}")
-logger.info(f"Subjects directory: {subjects_dir}")
+
+@lru_cache(maxsize=1)
+def get_data_path():
+    """Lazy-load the MNE sample dataset path"""
+    logger.info("Loading MNE sample dataset path")
+    data_path = mne.datasets.sample.data_path()
+    subjects_dir = os.path.join(data_path, "subjects")
+    logger.info(f"Data path: {data_path}")
+    logger.info(f"Subjects directory: {subjects_dir}")
+    return data_path, subjects_dir
 
 @lru_cache(maxsize=1)
 def get_raw_data():
     """Cache raw data loading for better performance"""
     logger.info("Loading raw EEG data from cache or disk")
+    data_path, _ = get_data_path()
     raw = mne.io.read_raw_fif(
         os.path.join(data_path, 'MEG', 'sample', 'sample_audvis_raw.fif'),
         preload=True
