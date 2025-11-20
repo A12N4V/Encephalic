@@ -30,8 +30,8 @@ services:
       dockerfile: Dockerfile
     container_name: encephalic-frontend
     ports:
-      - "3000:3000"
-      - "80:3000"
+      - "80:80"
+      - "3000:80"
     environment:
       - NEXT_PUBLIC_API_URL=http://localhost:8000
     depends_on:
@@ -39,7 +39,7 @@ services:
         condition: service_healthy
     restart: unless-stopped
     healthcheck:
-      test: ["CMD", "curl", "-f", "http://localhost:3000"]
+      test: ["CMD", "curl", "-f", "http://localhost:80"]
       interval: 30s
       timeout: 10s
       retries: 3
