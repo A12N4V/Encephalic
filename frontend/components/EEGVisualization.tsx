@@ -2,6 +2,7 @@
 
 import React, { useState, useEffect } from 'react'
 import dynamic from 'next/dynamic'
+import Image from 'next/image'
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card'
 import { Slider } from '@/components/ui/slider'
 import { Button } from '@/components/ui/button'
@@ -401,11 +402,14 @@ export default function EEGVisualization() {
               </div>
               <div className="bg-secondary rounded-lg p-8 flex items-center justify-center min-h-[500px]">
                 {topomap ? (
-                  <img
-                    src={topomap}
-                    alt="Topographic Map"
-                    className="max-w-full h-auto rounded-lg"
-                  />
+                  <div className="relative w-full max-w-[600px] h-[500px]">
+                    <Image
+                      src={topomap}
+                      alt="Topographic Map"
+                      fill
+                      className="object-contain rounded-lg"
+                    />
+                  </div>
                 ) : (
                   <div className="text-muted-foreground animate-pulse">
                     Loading topographic map...

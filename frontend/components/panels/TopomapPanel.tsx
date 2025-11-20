@@ -4,6 +4,7 @@
 "use client"
 
 import React from 'react'
+import Image from 'next/image'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Slider } from '@/components/ui/slider'
 import { Button } from '@/components/ui/button'
@@ -77,11 +78,14 @@ export function TopomapPanel({
               <p className="text-sm text-slate-600 dark:text-slate-400">Rendering topographic map...</p>
             </div>
           ) : imageUrl ? (
-            <img
-              src={imageUrl}
-              alt="Topographic Map"
-              className="max-w-full h-auto rounded-lg shadow-md"
-            />
+            <div className="relative w-full max-w-[400px] h-[320px]">
+              <Image
+                src={imageUrl}
+                alt="Topographic Map"
+                fill
+                className="object-contain rounded-lg shadow-md"
+              />
+            </div>
           ) : (
             <div className="text-center">
               <Brain className="w-12 h-12 text-slate-300 dark:text-slate-700 mx-auto mb-2" />

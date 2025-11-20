@@ -88,6 +88,7 @@ export interface EEGInfo {
   n_channels: number
   channel_names: string[]
   sampling_freq: number
+  sfreq: number
   duration: number
   n_samples: number
 }
