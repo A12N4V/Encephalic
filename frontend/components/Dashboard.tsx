@@ -15,7 +15,6 @@ import {
   Settings,
   Save,
   Brain,
-  Waveform,
   Target,
   Network,
   Scissors,
@@ -151,7 +150,7 @@ export default function Dashboard() {
 
   // Feature navigation
   const features = [
-    { id: 'signals' as const, label: 'Raw Signals', icon: Waveform, description: 'Time-series visualization' },
+    { id: 'signals' as const, label: 'Raw Signals', icon: Activity, description: 'Time-series visualization' },
     { id: 'frequency' as const, label: 'Frequency Analysis', icon: BarChart3, description: 'PSD & Spectrograms' },
     { id: 'topomap' as const, label: 'Topographic Maps', icon: MapPin, description: 'Spatial distribution' },
     { id: 'preprocessing' as const, label: 'Preprocessing', icon: Filter, description: 'Filters & Artifacts' },
