@@ -1,61 +1,63 @@
+@import url('https://fonts.googleapis.com/css2?family=Orbitron:wght:700;900&family=Inter:wght@300;400;500;600;700&display=swap');
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
 @layer base {
   :root {
-    --background: 240 10% 98%;
-    --foreground: 222 47% 11%;
+    --background: 0 0% 100%;
+    --foreground: 0 0% 0%;
     --card: 0 0% 100%;
-    --card-foreground: 222 47% 11%;
+    --card-foreground: 0 0% 0%;
     --popover: 0 0% 100%;
-    --popover-foreground: 222 47% 11%;
-    --primary: 221 83% 53%;
-    --primary-foreground: 210 40% 98%;
-    --secondary: 210 40% 96%;
-    --secondary-foreground: 222 47% 11%;
-    --muted: 210 40% 96%;
-    --muted-foreground: 215 16% 47%;
-    --accent: 210 40% 96%;
-    --accent-foreground: 222 47% 11%;
-    --destructive: 0 84% 60%;
-    --destructive-foreground: 210 40% 98%;
-    --border: 214 32% 91%;
-    --input: 214 32% 91%;
-    --ring: 221 83% 53%;
+    --popover-foreground: 0 0% 0%;
+    --primary: 0 0% 0%;
+    --primary-foreground: 0 0% 100%;
+    --secondary: 0 0% 95%;
+    --secondary-foreground: 0 0% 0%;
+    --muted: 0 0% 95%;
+    --muted-foreground: 0 0% 40%;
+    --accent: 0 0% 90%;
+    --accent-foreground: 0 0% 0%;
+    --destructive: 0 0% 20%;
+    --destructive-foreground: 0 0% 100%;
+    --border: 0 0% 85%;
+    --input: 0 0% 85%;
+    --ring: 0 0% 0%;
     --radius: 0.5rem;
-    --chart-1: 221 83% 53%;
-    --chart-2: 262 83% 58%;
-    --chart-3: 176 77% 47%;
-    --chart-4: 43 96% 56%;
-    --chart-5: 340 82% 52%;
+    --chart-1: 0 0% 10%;
+    --chart-2: 0 0% 25%;
+    --chart-3: 0 0% 40%;
+    --chart-4: 0 0% 55%;
+    --chart-5: 0 0% 70%;
   }
 
   .dark {
     --background: 0 0% 0%;
-    --foreground: 210 40% 98%;
+    --foreground: 0 0% 100%;
     --card: 0 0% 5%;
-    --card-foreground: 210 40% 98%;
+    --card-foreground: 0 0% 100%;
     --popover: 0 0% 5%;
-    --popover-foreground: 210 40% 98%;
-    --primary: 217 91% 60%;
+    --popover-foreground: 0 0% 100%;
+    --primary: 0 0% 100%;
     --primary-foreground: 0 0% 0%;
     --secondary: 0 0% 10%;
-    --secondary-foreground: 210 40% 98%;
+    --secondary-foreground: 0 0% 100%;
     --muted: 0 0% 10%;
-    --muted-foreground: 215 20% 65%;
-    --accent: 0 0% 10%;
-    --accent-foreground: 210 40% 98%;
-    --destructive: 0 62% 30%;
-    --destructive-foreground: 210 40% 98%;
+    --muted-foreground: 0 0% 60%;
+    --accent: 0 0% 15%;
+    --accent-foreground: 0 0% 100%;
+    --destructive: 0 0% 80%;
+    --destructive-foreground: 0 0% 0%;
     --border: 0 0% 15%;
     --input: 0 0% 15%;
-    --ring: 224 76% 48%;
-    --chart-1: 217 91% 60%;
-    --chart-2: 262 90% 70%;
-    --chart-3: 173 80% 40%;
-    --chart-4: 43 96% 56%;
-    --chart-5: 340 75% 55%;
+    --ring: 0 0% 100%;
+    --chart-1: 0 0% 90%;
+    --chart-2: 0 0% 75%;
+    --chart-3: 0 0% 60%;
+    --chart-4: 0 0% 45%;
+    --chart-5: 0 0% 30%;
   }
 }
 
@@ -65,55 +67,54 @@
   }
   body {
     @apply bg-background text-foreground font-sans antialiased;
+    overflow: hidden;
+    height: 100vh;
+    width: 100vw;
+  }
+  html {
+    overflow: hidden;
+    height: 100vh;
+    width: 100vw;
   }
 }
 
-/* Modern UI enhancements */
+/* Encephalic Brand Font */
+.encephalic-title {
+  font-family: 'Orbitron', sans-serif;
+  font-weight: 900;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+
+/* Modern UI enhancements - Black & White Theme */
 @layer utilities {
-  /* Glassmorphism effect */
-  .glass {
-    background: rgba(255, 255, 255, 0.8);
-    backdrop-filter: blur(10px);
-    border: 1px solid rgba(255, 255, 255, 0.3);
+  /* No scrollbars - everything fits in viewport */
+  .no-scrollbar {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
   }
 
-  .dark .glass {
-    background: rgba(0, 0, 0, 0.8);
-    border: 1px solid rgba(255, 255, 255, 0.1);
+  .no-scrollbar::-webkit-scrollbar {
+    display: none;
   }
 
-  /* Gradient backgrounds */
-  .gradient-primary {
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  /* Minimal scrollbar for internal panels if needed */
+  .minimal-scrollbar::-webkit-scrollbar {
+    width: 4px;
+    height: 4px;
   }
 
-  .gradient-secondary {
-    background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+  .minimal-scrollbar::-webkit-scrollbar-track {
+    background: transparent;
   }
 
-  .gradient-accent {
-    background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+  .minimal-scrollbar::-webkit-scrollbar-thumb {
+    background: hsl(var(--border));
+    border-radius: 2px;
   }
 
-  /* Custom scrollbar for modern theme */
-  ::-webkit-scrollbar {
-    width: 6px;
-    height: 6px;
-  }
-
-  ::-webkit-scrollbar-track {
-    background: hsl(var(--muted));
-    border-radius: 5px;
-  }
-
-  ::-webkit-scrollbar-thumb {
-    background: hsl(var(--primary) / 0.5);
-    border-radius: 5px;
-    transition: background 0.2s;
-  }
-
-  ::-webkit-scrollbar-thumb:hover {
-    background: hsl(var(--primary) / 0.7);
+  .minimal-scrollbar::-webkit-scrollbar-thumb:hover {
+    background: hsl(var(--muted-foreground));
   }
 
   /* Smooth animations */
@@ -132,17 +133,19 @@
     animation: fadeIn 0.3s ease-out;
   }
 
-  @keyframes pulse-soft {
-    0%, 100% {
-      opacity: 1;
+  @keyframes slideIn {
+    from {
+      opacity: 0;
+      transform: translateX(-10px);
     }
-    50% {
-      opacity: 0.8;
+    to {
+      opacity: 1;
+      transform: translateX(0);
     }
   }
 
-  .animate-pulse-soft {
-    animation: pulse-soft 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+  .animate-slideIn {
+    animation: slideIn 0.3s ease-out;
   }
 
   /* Card hover effects */
@@ -152,6 +155,22 @@
 
   .card-hover:hover {
     transform: translateY(-1px);
-    box-shadow: 0 6px 20px -8px rgba(0, 0, 0, 0.15);
+    box-shadow: 0 4px 12px -4px rgba(0, 0, 0, 0.2);
+  }
+
+  /* Fixed viewport layout */
+  .viewport-container {
+    height: 100vh;
+    width: 100vw;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .viewport-content {
+    flex: 1;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
   }
 }
