@@ -120,16 +120,16 @@ export default function Dashboard() {
   ]
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-50 dark:from-black dark:via-black dark:to-black p-6">
+    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-50 dark:from-black dark:via-black dark:to-black p-3">
       <ThemeToggle />
 
       {/* Modern Header */}
-      <div className="max-w-[1920px] mx-auto mb-6 animate-fadeIn">
+      <div className="max-w-[1920px] mx-auto mb-3 animate-fadeIn">
         <div className="relative overflow-hidden rounded-2xl bg-white/80 dark:bg-slate-900/80 backdrop-blur-xl border border-slate-200 dark:border-slate-800 shadow-xl">
           {/* Gradient Accent Bar */}
           <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500"></div>
 
-          <div className="p-6">
+          <div className="p-3">
             <div className="flex items-center justify-between">
               {/* Title Section */}
               <div className="flex items-center gap-4">
@@ -163,7 +163,7 @@ export default function Dashboard() {
 
       {/* Main Content with Tabs */}
       <div className="max-w-[1920px] mx-auto">
-        <Tabs defaultValue="overview" className="space-y-6">
+        <Tabs defaultValue="overview" className="space-y-3">
           <TabsList className="grid w-full grid-cols-5 lg:w-auto lg:inline-grid bg-white/80 dark:bg-slate-900/80 backdrop-blur border border-slate-200 dark:border-slate-800">
             <TabsTrigger value="overview" className="gap-2">
               <Layers className="w-4 h-4" />
@@ -188,12 +188,12 @@ export default function Dashboard() {
           </TabsList>
 
           {/* Overview Tab */}
-          <TabsContent value="overview" className="space-y-6">
+          <TabsContent value="overview" className="space-y-3">
             <div className="animate-fadeIn">
               <InfoPanel data={eegInfo} loading={infoLoading} />
             </div>
 
-            <div className="grid grid-cols-1 xl:grid-cols-3 gap-6 animate-fadeIn">
+            <div className="grid grid-cols-1 xl:grid-cols-3 gap-3 animate-fadeIn">
               <div className="xl:col-span-2">
                 <SignalsPanel data={eegData} loading={dataLoading} onTimeClick={handleTimeClick} />
               </div>
@@ -210,7 +210,7 @@ export default function Dashboard() {
               </div>
             </div>
 
-            <div className="grid grid-cols-1 xl:grid-cols-3 gap-6 animate-fadeIn">
+            <div className="grid grid-cols-1 xl:grid-cols-3 gap-3 animate-fadeIn">
               <div className="xl:col-span-2">
                 <PSDPanel data={psdData} loading={psdLoading} />
               </div>
@@ -221,8 +221,8 @@ export default function Dashboard() {
           </TabsContent>
 
           {/* Advanced Tab */}
-          <TabsContent value="advanced" className="space-y-6">
-            <div className="grid grid-cols-1 xl:grid-cols-3 gap-6">
+          <TabsContent value="advanced" className="space-y-3">
+            <div className="grid grid-cols-1 xl:grid-cols-3 gap-3">
               <div className="xl:col-span-2">
                 <SpectrogramPanel data={null} loading={false} />
               </div>
@@ -231,15 +231,15 @@ export default function Dashboard() {
               </div>
             </div>
 
-            <div className="grid grid-cols-1 xl:grid-cols-2 gap-6">
+            <div className="grid grid-cols-1 xl:grid-cols-2 gap-3">
               <ConnectivityPanel data={mockConnectivityData} loading={false} />
               <ElectrodeMontagePanel data={mockElectrodeData} loading={false} />
             </div>
           </TabsContent>
 
           {/* Analysis Tab */}
-          <TabsContent value="analysis" className="space-y-6">
-            <div className="grid grid-cols-1 xl:grid-cols-3 gap-6">
+          <TabsContent value="analysis" className="space-y-3">
+            <div className="grid grid-cols-1 xl:grid-cols-3 gap-3">
               <div className="xl:col-span-2">
                 <StatsPanel data={eegData} loading={dataLoading} />
               </div>
@@ -256,8 +256,8 @@ export default function Dashboard() {
           </TabsContent>
 
           {/* Quality Tab */}
-          <TabsContent value="quality" className="space-y-6">
-            <div className="grid grid-cols-1 xl:grid-cols-2 gap-6">
+          <TabsContent value="quality" className="space-y-3">
+            <div className="grid grid-cols-1 xl:grid-cols-2 gap-3">
               <ArtifactDetectionPanel artifacts={mockArtifacts} loading={false} />
               <EventMarkingPanel
                 events={events}
@@ -269,8 +269,8 @@ export default function Dashboard() {
           </TabsContent>
 
           {/* Tools Tab */}
-          <TabsContent value="tools" className="space-y-6">
-            <div className="grid grid-cols-1 xl:grid-cols-3 gap-6">
+          <TabsContent value="tools" className="space-y-3">
+            <div className="grid grid-cols-1 xl:grid-cols-3 gap-3">
               <ExportPanel />
             </div>
           </TabsContent>
@@ -278,8 +278,8 @@ export default function Dashboard() {
       </div>
 
       {/* Modern Footer */}
-      <div className="max-w-[1920px] mx-auto mt-8 animate-fadeIn">
-        <div className="rounded-xl bg-white/60 dark:bg-slate-900/60 backdrop-blur border border-slate-200 dark:border-slate-800 p-4 text-center">
+      <div className="max-w-[1920px] mx-auto mt-3 animate-fadeIn">
+        <div className="rounded-xl bg-white/60 dark:bg-slate-900/60 backdrop-blur border border-slate-200 dark:border-slate-800 p-2 text-center">
           <div className="flex items-center justify-center gap-2 text-xs text-slate-500 dark:text-slate-400">
             <Zap className="w-3 h-3" />
             <span>Powered by MNE-Python, Flask, Next.js & shadcn/ui • State-of-the-Art EEG Analysis Platform</span>

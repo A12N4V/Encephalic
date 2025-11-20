@@ -7,7 +7,6 @@ import React from 'react'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { AlertTriangle, Eye, Zap, Activity, Loader2 } from 'lucide-react'
 import { Badge } from '@/components/ui/badge'
-import { ScrollArea } from '@/components/ui/scroll-area'
 
 interface ArtifactDetection {
   type: 'eye_blink' | 'muscle' | 'movement' | 'line_noise'
@@ -73,7 +72,7 @@ export function ArtifactDetectionPanel({
 
   return (
     <Card className="bg-white/80 dark:bg-slate-900/80 backdrop-blur border-slate-200 dark:border-slate-800 shadow-lg hover:shadow-xl transition-shadow duration-300 h-full">
-      <CardHeader className="border-b border-slate-200 dark:border-slate-800 pb-4">
+      <CardHeader className="border-b border-slate-200 dark:border-slate-800 pb-2">
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-3">
             <div className="p-2 bg-red-100 dark:bg-red-950/30 rounded-lg">
@@ -94,14 +93,14 @@ export function ArtifactDetectionPanel({
         </div>
       </CardHeader>
 
-      <CardContent className="p-4">
+      <CardContent className="p-2">
         {loading ? (
-          <div className="flex flex-col items-center justify-center h-64 gap-3">
+          <div className="flex flex-col items-center justify-center h-32 gap-3">
             <Loader2 className="w-8 h-8 text-red-600 dark:text-red-400 animate-spin" />
             <p className="text-sm text-slate-600 dark:text-slate-400">Detecting artifacts...</p>
           </div>
         ) : (
-          <div className="space-y-4">
+          <div className="space-y-2">
             {/* Artifact Type Summary */}
             <div>
               <h4 className="text-xs font-semibold text-slate-700 dark:text-slate-300 mb-2">
@@ -145,7 +144,7 @@ export function ArtifactDetectionPanel({
               <h4 className="text-xs font-semibold text-slate-700 dark:text-slate-300 mb-2">
                 Detected Artifacts
               </h4>
-              <ScrollArea className="h-48">
+              <div>
                 <div className="space-y-2">
                   {sortedArtifacts.length === 0 ? (
                     <div className="text-center py-8">
@@ -194,7 +193,7 @@ export function ArtifactDetectionPanel({
                     })
                   )}
                 </div>
-              </ScrollArea>
+              </div>
             </div>
 
             {/* Signal Quality Indicator */}

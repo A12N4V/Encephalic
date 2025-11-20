@@ -38,7 +38,7 @@ export function PSDPanel({ data, loading }: PSDPanelProps) {
 
   return (
     <Card className="bg-white/80 dark:bg-slate-900/80 backdrop-blur border-slate-200 dark:border-slate-800 shadow-lg hover:shadow-xl transition-shadow duration-300 h-full">
-      <CardHeader className="border-b border-slate-200 dark:border-slate-800 pb-4">
+      <CardHeader className="border-b border-slate-200 dark:border-slate-800 pb-2">
         <div className="flex items-center gap-3">
           <div className="p-2 bg-violet-100 dark:bg-violet-950/30 rounded-lg">
             <Waves className="w-5 h-5 text-violet-600 dark:text-violet-400" />
@@ -53,9 +53,9 @@ export function PSDPanel({ data, loading }: PSDPanelProps) {
           </div>
         </div>
       </CardHeader>
-      <CardContent className="p-4">
+      <CardContent className="p-2">
         {loading ? (
-          <div className="flex flex-col items-center justify-center h-80 gap-3">
+          <div className="flex flex-col items-center justify-center h-48 gap-3">
             <Loader2 className="w-8 h-8 text-violet-600 dark:text-violet-400 animate-spin" />
             <p className="text-sm text-slate-600 dark:text-slate-400">Computing power spectrum...</p>
           </div>
@@ -65,7 +65,7 @@ export function PSDPanel({ data, loading }: PSDPanelProps) {
               data={plotData}
               layout={{
                 autosize: true,
-                height: 360,
+                height: 240,
                 paper_bgcolor: 'rgba(0,0,0,0)',
                 plot_bgcolor: 'rgba(0,0,0,0)',
                 xaxis: {

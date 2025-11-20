@@ -8,7 +8,6 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { CheckSquare, Square, Brain, Eye, Ear, Hand, Loader2 } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { Badge } from '@/components/ui/badge'
-import { ScrollArea } from '@/components/ui/scroll-area'
 
 interface ChannelSelectorPanelProps {
   channels: string[]
@@ -83,7 +82,7 @@ export function ChannelSelectorPanel({
 
   return (
     <Card className="bg-white/80 dark:bg-slate-900/80 backdrop-blur border-slate-200 dark:border-slate-800 shadow-lg hover:shadow-xl transition-shadow duration-300 h-full">
-      <CardHeader className="border-b border-slate-200 dark:border-slate-800 pb-4">
+      <CardHeader className="border-b border-slate-200 dark:border-slate-800 pb-2">
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-3">
             <div className="p-2 bg-purple-100 dark:bg-purple-950/30 rounded-lg">
@@ -104,14 +103,14 @@ export function ChannelSelectorPanel({
         </div>
       </CardHeader>
 
-      <CardContent className="p-4">
+      <CardContent className="p-2">
         {loading ? (
-          <div className="flex flex-col items-center justify-center h-64 gap-3">
+          <div className="flex flex-col items-center justify-center h-32 gap-3">
             <Loader2 className="w-8 h-8 text-purple-600 dark:text-purple-400 animate-spin" />
             <p className="text-sm text-slate-600 dark:text-slate-400">Loading channels...</p>
           </div>
         ) : (
-          <div className="space-y-4">
+          <div className="space-y-2">
             {/* Quick Actions */}
             <div className="flex gap-2">
               <Button
@@ -169,7 +168,7 @@ export function ChannelSelectorPanel({
             </div>
 
             {/* Channel List */}
-            <ScrollArea className="h-64 rounded-lg border border-slate-200 dark:border-slate-800 bg-slate-50/50 dark:bg-slate-950/50">
+            <div className="rounded-lg border border-slate-200 dark:border-slate-800 bg-slate-50/50 dark:bg-slate-950/50">
               <div className="p-2 space-y-1">
                 {filteredChannels.map((channel) => {
                   const isSelected = selectedChannels.includes(channel)
@@ -193,7 +192,7 @@ export function ChannelSelectorPanel({
                   )
                 })}
               </div>
-            </ScrollArea>
+            </div>
 
             {/* Educational Note */}
             <div className="text-xs text-slate-500 dark:text-slate-400 p-3 bg-blue-50/50 dark:bg-blue-950/20 rounded-lg border border-blue-200 dark:border-blue-900">

@@ -84,7 +84,7 @@ export function StatsPanel({ data, loading }: StatsPanelProps) {
 
   return (
     <Card className="bg-white/80 dark:bg-slate-900/80 backdrop-blur border-slate-200 dark:border-slate-800 shadow-lg hover:shadow-xl transition-shadow duration-300 h-full">
-      <CardHeader className="border-b border-slate-200 dark:border-slate-800 pb-4">
+      <CardHeader className="border-b border-slate-200 dark:border-slate-800 pb-2">
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-3">
             <div className="p-2 bg-emerald-100 dark:bg-emerald-950/30 rounded-lg">
@@ -107,14 +107,14 @@ export function StatsPanel({ data, loading }: StatsPanelProps) {
         </div>
       </CardHeader>
 
-      <CardContent className="p-4">
+      <CardContent className="p-2">
         {loading ? (
           <div className="flex flex-col items-center justify-center h-64 gap-3">
             <Loader2 className="w-8 h-8 text-emerald-600 dark:text-emerald-400 animate-spin" />
             <p className="text-sm text-slate-600 dark:text-slate-400">Analyzing signal data...</p>
           </div>
         ) : data && overallStats ? (
-          <div className="space-y-4">
+          <div className="space-y-2">
             {/* Overall Metrics Cards */}
             <div className="grid grid-cols-3 gap-3">
               <div className="p-3 bg-gradient-to-br from-blue-50 to-blue-100 dark:from-blue-950/30 dark:to-blue-900/30 rounded-lg border border-blue-200 dark:border-blue-800">
@@ -164,7 +164,7 @@ export function StatsPanel({ data, loading }: StatsPanelProps) {
                 Channel-by-Channel Analysis
               </h4>
               <div className="bg-slate-50/50 dark:bg-slate-950/50 rounded-lg border border-slate-200 dark:border-slate-800 overflow-hidden">
-                <div className="max-h-64 overflow-y-auto">
+                <div>
                   <table className="w-full text-xs">
                     <thead className="bg-slate-100 dark:bg-slate-800 sticky top-0">
                       <tr>

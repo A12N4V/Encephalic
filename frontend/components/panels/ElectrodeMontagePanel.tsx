@@ -141,7 +141,7 @@ export function ElectrodeMontagePanel({
 
   return (
     <Card className="bg-white/80 dark:bg-slate-900/80 backdrop-blur border-slate-200 dark:border-slate-800 shadow-lg hover:shadow-xl transition-shadow duration-300 h-full">
-      <CardHeader className="border-b border-slate-200 dark:border-slate-800 pb-4">
+      <CardHeader className="border-b border-slate-200 dark:border-slate-800 pb-2">
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-3">
             <div className="p-2 bg-violet-100 dark:bg-violet-950/30 rounded-lg">
@@ -164,20 +164,20 @@ export function ElectrodeMontagePanel({
         </div>
       </CardHeader>
 
-      <CardContent className="p-4">
+      <CardContent className="p-2">
         {loading ? (
-          <div className="flex flex-col items-center justify-center h-96 gap-3">
+          <div className="flex flex-col items-center justify-center h-48 gap-3">
             <Loader2 className="w-8 h-8 text-violet-600 dark:text-violet-400 animate-spin" />
             <p className="text-sm text-slate-600 dark:text-slate-400">Loading electrode positions...</p>
           </div>
         ) : data ? (
-          <div className="space-y-4">
+          <div className="space-y-2">
             <div className="bg-slate-50/50 dark:bg-slate-950/50 rounded-lg p-3 border border-slate-200 dark:border-slate-800">
               <Plot
                 data={plotData}
                 layout={{
                   autosize: true,
-                  height: 500,
+                  height: 240,
                   paper_bgcolor: 'rgba(0,0,0,0)',
                   plot_bgcolor: 'rgba(0,0,0,0)',
                   scene: {
@@ -235,7 +235,7 @@ export function ElectrodeMontagePanel({
             </div>
           </div>
         ) : (
-          <div className="flex items-center justify-center h-96 text-slate-400">
+          <div className="flex items-center justify-center h-48 text-slate-400">
             No electrode data available
           </div>
         )}
