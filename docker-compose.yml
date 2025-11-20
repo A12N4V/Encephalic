@@ -1,35 +1,57 @@
+version: '3.8'
+
 services:
+  # Django Backend with MNE-Python (Optimized v2.0)
   backend:
     build:
-      context: ./backend
+      context: ./backend_django
       dockerfile: Dockerfile
-    container_name: encephalic-backend
+    container_name: encephalic-backend-django
     ports:
       - "8000:8000"
     environment:
-      - FLASK_ENV=production
+      - DEBUG=True
+      - DJANGO_SECRET_KEY=dev-secret-key-change-in-production
       - PYTHONUNBUFFERED=1
+    volumes:
+      - mne_data:/root/mne_data
     restart: unless-stopped
     healthcheck:
       test: ["CMD", "curl", "-f", "http://localhost:8000/api/health"]
       interval: 30s
       timeout: 10s
       retries: 3
-      start_period: 40s
+      start_period: 60s
+    networks:
+      - encephalic-network
 
+  # Next.js Frontend with Terminal UI
   frontend:
     build:
       context: ./frontend
       dockerfile: Dockerfile
     container_name: encephalic-frontend
     ports:
-      - "80:80"
+      - "3000:3000"
+      - "80:3000"
     environment:
-      - NEXT_PUBLIC_API_URL=http://backend:8000
+      - NEXT_PUBLIC_API_URL=http://localhost:8000
     depends_on:
-      - backend
+      backend:
+        condition: service_healthy
     restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:3000"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+    networks:
+      - encephalic-network
+
+volumes:
+  mne_data:
+    driver: local
 
 networks:
-  default:
-    name: encephalic-network
+  encephalic-network:
+    driver: bridge

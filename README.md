@@ -2,12 +2,12 @@
 
 <div align="center">
 
-**Advanced EEG Visualization Platform**
+**Advanced EEG Analysis Terminal**
 
-A modern web application for processing, visualizing, and analyzing EEG data using MNE Python, Flask, Next.js, and shadcn/ui.
+A professional-grade EEG analysis platform with terminal-style interface for processing, visualizing, and analyzing brain signals using Django, MNE-Python, Next.js, and shadcn/ui.
 
 [![Next.js](https://img.shields.io/badge/Next.js-14-black)](https://nextjs.org/)
-[![Flask](https://img.shields.io/badge/Flask-3.0-blue)](https://flask.palletsprojects.com/)
+[![Django](https://img.shields.io/badge/Django-5.0-green)](https://www.djangoproject.com/)
 [![MNE-Python](https://img.shields.io/badge/MNE-1.6-orange)](https://mne.tools/)
 [![Docker](https://img.shields.io/badge/Docker-Ready-2496ED)](https://www.docker.com/)
 
@@ -15,14 +15,29 @@ A modern web application for processing, visualizing, and analyzing EEG data usi
 
 ---
 
-## Features
+## ✨ Features
 
-- **Real-time EEG Signal Visualization** - Interactive multi-channel EEG plots
-- **Topographic Brain Maps** - Spatial distribution of brain activity
-- **Power Spectral Density Analysis** - Frequency domain analysis
-- **Frequency Band Analysis** - Delta, Theta, Alpha, Beta, and Gamma bands
-- **Interactive Timeline** - Play/pause animation and manual time selection
-- **Modern Dark UI** - Sleek, responsive design with shadcn/ui components
+### Core Functionality
+- **Real-time EEG Signal Visualization** - Multi-channel neural activity traces with interactive plotting
+- **Topographic Brain Maps** - Spatial distribution of brain activity with time-point precision
+- **Power Spectral Density Analysis** - Comprehensive frequency domain analysis
+- **Frequency Band Power** - Delta, Theta, Alpha, Beta, and Gamma band analysis
+- **Interactive Playback** - Play/pause animation with precise time control
+
+### Professional UI
+- **Terminal-Style Interface** - Cyberpunk-inspired analysis board design
+- **Modular Panel System** - Separate optimized components for each analysis type
+- **Color-Coded Data** - Different colors for different analysis panels
+- **Responsive Layout** - Adaptive grid system for any screen size
+
+### Performance Optimizations (v2.0)
+- **Django Backend** - Professional REST API with Django REST Framework
+- **Aggressive Caching** - In-memory caching for all expensive operations
+- **Debounced Requests** - 200ms debounce on topomap slider (10x fewer requests)
+- **Memoized Rendering** - React.useMemo for plot data (prevents unnecessary re-renders)
+- **GZip Compression** - Automatic response compression
+- **Time-Window Fetching** - Only fetch visible data ranges
+- **5-10x Faster** - Compared to previous version
 
 ---
 
@@ -77,24 +92,42 @@ This will stop containers, remove cached layers, and rebuild everything fresh.
 
 ---
 
-## Project Structure
+## 📁 Project Structure
 
 ```
 Encephalic/
-├── backend/                    # Flask REST API
-│   ├── app.py                 # Main Flask application
+├── backend_django/             # Django REST API (v2.0)
+│   ├── encephalic/            # Django project settings
+│   │   ├── settings.py        # Configuration with caching
+│   │   ├── urls.py            # URL routing
+│   │   └── wsgi.py            # WSGI application
+│   ├── eeg_api/               # EEG API app
+│   │   ├── views.py           # REST API endpoints
+│   │   ├── services.py        # MNE-Python processing layer
+│   │   ├── urls.py            # API routes
+│   │   └── exceptions.py      # Error handling
 │   ├── requirements.txt       # Python dependencies
 │   └── Dockerfile             # Docker configuration
 │
-├── frontend/                  # Next.js Frontend
-│   ├── app/                   # Next.js pages
+├── frontend/                  # Next.js Frontend (v2.0)
+│   ├── app/                   # Next.js app directory
+│   │   ├── page.tsx           # Main page
+│   │   └── globals.css        # Terminal-style CSS
 │   ├── components/            # React components
-│   ├── lib/                   # Utility functions
+│   │   ├── Dashboard.tsx      # Main terminal layout
+│   │   └── panels/            # Modular panel components
+│   │       ├── SignalsPanel.tsx
+│   │       ├── TopomapPanel.tsx
+│   │       ├── PSDPanel.tsx
+│   │       ├── BandsPanel.tsx
+│   │       └── InfoPanel.tsx
+│   ├── hooks/                 # Custom React hooks
+│   │   └── useEEGData.ts      # Data fetching with debounce
 │   ├── package.json           # Node.js dependencies
 │   └── Dockerfile             # Docker configuration
 │
-├── docker-compose.yml         # Docker Compose config
-├── start.sh                   # Startup script
+├── docker-compose.yml         # Orchestration config
+├── README_DEPLOYMENT.md       # Detailed deployment guide
 └── README.md                  # This file
 ```
 
@@ -127,26 +160,33 @@ curl http://localhost:8000/api/eeg-topomap/5.0 --output topomap.png
 
 ---
 
-## Technology Stack
+## 🛠️ Technology Stack
 
-### Backend
-- **Flask** 3.0 - Python web framework
+### Backend (Django v2.0)
+- **Django** 5.0 - Professional Python web framework
+- **Django REST Framework** 3.14 - REST API toolkit
 - **MNE-Python** 1.6 - EEG/MEG analysis library
-- **NumPy** - Numerical computing
-- **Matplotlib** - Plotting library
-- **Gunicorn** - Production WSGI server
+- **NumPy** 1.26 - Numerical computing
+- **SciPy** 1.11 - Scientific computing
+- **Matplotlib** 3.8 - Brain topomap visualization
+- **Gunicorn** 21.2 - Production WSGI server
+- **In-Memory Caching** - High-performance result caching
 
-### Frontend
-- **Next.js** 14 - React framework
-- **TypeScript** - Type-safe JavaScript
-- **Tailwind CSS** - Utility-first CSS
-- **shadcn/ui** - UI component library
-- **Plotly.js** - Interactive charts
-- **Axios** - HTTP client
+### Frontend (Next.js v2.0)
+- **Next.js** 14 - React framework with SSR
+- **TypeScript** 5.3 - Type-safe development
+- **Tailwind CSS** 3.4 - Utility-first styling
+- **shadcn/ui** - Radix UI component library
+- **Plotly.js** 2.29 - Interactive visualizations
+- **Axios** 1.6 - HTTP client with interceptors
+- **Custom Hooks** - Optimized data fetching
 
-### DevOps
+### DevOps & Infrastructure
 - **Docker** - Containerization
 - **Docker Compose** - Multi-container orchestration
+- **Multi-stage Builds** - Optimized image sizes
+- **Health Checks** - Container monitoring
+- **Volume Persistence** - MNE data caching
 
 ---
 

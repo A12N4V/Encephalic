@@ -1,5 +1,5 @@
-import EEGVisualization from '@/components/EEGVisualization'
+import Dashboard from '@/components/Dashboard'
 
 export default function Home() {
-  return <EEGVisualization />
+  return <Dashboard />
 }
