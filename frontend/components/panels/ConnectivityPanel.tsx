@@ -44,7 +44,7 @@ export function ConnectivityPanel({
         [0, '#1e3a8a'],
         [0.5, '#f8fafc'],
         [1, '#dc2626']
-      ],
+      ] as any,
       zmid: 0,
       colorbar: {
         title: {
