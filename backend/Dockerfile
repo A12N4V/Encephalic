@@ -2,10 +2,11 @@ FROM python:3.11-slim
 
 WORKDIR /app
 
-# Install system dependencies
+# Install system dependencies including curl for healthcheck
 RUN apt-get update && apt-get install -y \
     gcc \
     g++ \
+    curl \
     libfreetype6-dev \
     libpng-dev \
     && rm -rf /var/lib/apt/lists/*
