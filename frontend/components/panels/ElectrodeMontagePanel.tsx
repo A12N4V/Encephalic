@@ -72,7 +72,7 @@ export function ElectrodeMontagePanel({
       type: 'surface',
       x, y, z,
       opacity: 0.2,
-      colorscale: [[0, '#e2e8f0'], [1, '#cbd5e1']],
+      colorscale: [[0, '#e2e8f0'], [1, '#cbd5e1']] as any,
       showscale: false,
       hoverinfo: 'skip',
       name: 'Head Surface'
