@@ -1,11 +1,11 @@
 /**
- * Main Dashboard - Terminal-style EEG Analysis Board
- * Comprehensive layout with modular panels
+ * Main Dashboard - Modern EEG Analysis Board
+ * Professional layout with comprehensive data visualization
  */
 "use client"
 
 import React, { useState, useEffect } from 'react'
-import { Brain, Terminal } from 'lucide-react'
+import { Brain, Activity, Zap, BarChart3 } from 'lucide-react'
 import {
   useEEGInfo,
   useEEGData,
@@ -56,53 +56,64 @@ export default function Dashboard() {
   }
 
   return (
-    <div className="min-h-screen bg-black text-green-500 p-4 font-mono">
+    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-50 dark:from-slate-950 dark:via-slate-900 dark:to-slate-950 p-6">
       <ThemeToggle />
 
-      {/* Terminal Header */}
-      <div className="max-w-[1920px] mx-auto mb-4">
-        <div className="border border-green-500/50 rounded-lg p-4 bg-black/80 backdrop-blur">
-          <div className="flex items-center justify-between">
-            {/* Title */}
-            <div className="flex items-center gap-3">
-              <Brain className="w-8 h-8 text-green-500 animate-pulse" />
-              <div>
-                <div className="flex items-center gap-2">
-                  <Terminal className="w-4 h-4 text-green-500" />
-                  <h1 className="text-2xl font-bold text-green-500 tracking-wider">
-                    ENCEPHALIC ANALYSIS TERMINAL
-                  </h1>
-                </div>
-                <p className="text-xs text-green-500/70 mt-1">
-                  &gt; ADVANCED EEG SIGNAL PROCESSING & VISUALIZATION SYSTEM v2.0
-                </p>
-              </div>
-            </div>
+      {/* Modern Header */}
+      <div className="max-w-[1920px] mx-auto mb-6 animate-fadeIn">
+        <div className="relative overflow-hidden rounded-2xl bg-white/80 dark:bg-slate-900/80 backdrop-blur-xl border border-slate-200 dark:border-slate-800 shadow-xl">
+          {/* Gradient Accent Bar */}
+          <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500"></div>
 
-            {/* Status Indicator */}
-            <div className="flex items-center gap-2 px-3 py-2 border border-green-500/30 rounded bg-green-500/10">
-              <div className="w-2 h-2 bg-green-500 rounded-full animate-pulse"></div>
-              <span className="text-xs text-green-500 font-bold">ONLINE</span>
+          <div className="p-6">
+            <div className="flex items-center justify-between">
+              {/* Title Section */}
+              <div className="flex items-center gap-4">
+                <div className="relative">
+                  <div className="absolute inset-0 bg-blue-500 blur-xl opacity-50 animate-pulse-soft"></div>
+                  <Brain className="relative w-12 h-12 text-blue-600 dark:text-blue-400" />
+                </div>
+                <div>
+                  <h1 className="text-3xl font-bold bg-gradient-to-r from-blue-600 via-purple-600 to-pink-600 bg-clip-text text-transparent">
+                    Encephalic Analysis Board
+                  </h1>
+                  <p className="text-sm text-slate-600 dark:text-slate-400 mt-1 flex items-center gap-2">
+                    <Activity className="w-4 h-4" />
+                    Advanced EEG Signal Processing & Visualization Platform
+                  </p>
+                </div>
+              </div>
+
+              {/* Status Badge */}
+              <div className="flex items-center gap-3 px-4 py-2 bg-emerald-50 dark:bg-emerald-950/30 border border-emerald-200 dark:border-emerald-800 rounded-full">
+                <div className="relative">
+                  <div className="w-2.5 h-2.5 bg-emerald-500 rounded-full animate-pulse"></div>
+                  <div className="absolute inset-0 w-2.5 h-2.5 bg-emerald-500 rounded-full animate-ping"></div>
+                </div>
+                <span className="text-sm font-semibold text-emerald-700 dark:text-emerald-300">Live</span>
+              </div>
             </div>
           </div>
         </div>
       </div>
 
       {/* Main Grid Layout */}
-      <div className="max-w-[1920px] mx-auto space-y-4">
+      <div className="max-w-[1920px] mx-auto space-y-6">
         {/* Info Panel - Full Width */}
-        <InfoPanel data={eegInfo} loading={infoLoading} />
+        <div className="animate-fadeIn" style={{ animationDelay: '100ms' }}>
+          <InfoPanel data={eegInfo} loading={infoLoading} />
+        </div>
 
         {/* Top Row - Signals (2/3) + Topomap (1/3) */}
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
-          <div className="lg:col-span-2">
+        <div className="grid grid-cols-1 xl:grid-cols-3 gap-6 animate-fadeIn" style={{ animationDelay: '200ms' }}>
+          <div className="xl:col-span-2">
             <SignalsPanel
               data={eegData}
               loading={dataLoading}
               onTimeClick={handleTimeClick}
             />
           </div>
-          <div className="lg:col-span-1">
+          <div className="xl:col-span-1">
             <TopomapPanel
               imageUrl={topomap}
               loading={topomapLoading}
@@ -116,22 +127,24 @@ export default function Dashboard() {
         </div>
 
         {/* Bottom Row - PSD (2/3) + Bands (1/3) */}
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
-          <div className="lg:col-span-2">
+        <div className="grid grid-cols-1 xl:grid-cols-3 gap-6 animate-fadeIn" style={{ animationDelay: '300ms' }}>
+          <div className="xl:col-span-2">
             <PSDPanel data={psdData} loading={psdLoading} />
           </div>
-          <div className="lg:col-span-1">
+          <div className="xl:col-span-1">
             <BandsPanel data={bandData} loading={bandLoading} />
           </div>
         </div>
       </div>
 
-      {/* Terminal Footer */}
-      <div className="max-w-[1920px] mx-auto mt-4">
-        <div className="border border-green-500/30 rounded p-2 bg-black/50 text-center">
-          <p className="text-[10px] text-green-500/70">
-            &gt; POWERED BY MNE-PYTHON | DJANGO REST | NEXT.JS | SHADCN
-          </p>
+      {/* Modern Footer */}
+      <div className="max-w-[1920px] mx-auto mt-8 animate-fadeIn" style={{ animationDelay: '400ms' }}>
+        <div className="rounded-xl bg-white/60 dark:bg-slate-900/60 backdrop-blur border border-slate-200 dark:border-slate-800 p-4 text-center">
+          <div className="flex items-center justify-center gap-2 text-xs text-slate-500 dark:text-slate-400">
+            <Zap className="w-3 h-3" />
+            <span>Powered by MNE-Python, Flask, Next.js & shadcn/ui</span>
+            <BarChart3 className="w-3 h-3" />
+          </div>
         </div>
       </div>
     </div>

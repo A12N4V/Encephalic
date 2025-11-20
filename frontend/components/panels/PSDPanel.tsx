@@ -6,7 +6,7 @@
 import React, { useMemo } from 'react'
 import dynamic from 'next/dynamic'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
-import { Waves } from 'lucide-react'
+import { Waves, Loader2 } from 'lucide-react'
 import { PSDData } from '@/hooks/useEEGData'
 
 const Plot = dynamic(() => import('react-plotly.js'), { ssr: false })
@@ -27,68 +27,92 @@ export function PSDPanel({ data, loading }: PSDPanelProps) {
         mode: 'lines' as const,
         name: 'Average PSD',
         line: {
-          color: '#a855f7',
-          width: 2,
+          color: '#8b5cf6',
+          width: 2.5,
         },
         fill: 'tozeroy' as const,
-        fillcolor: 'rgba(168, 85, 247, 0.2)',
+        fillcolor: 'rgba(139, 92, 246, 0.15)',
       },
     ]
   }, [data])
 
   return (
-    <Card className="bg-black border-purple-500/30 h-full">
-      <CardHeader className="border-b border-purple-500/30 pb-3">
-        <div className="flex items-center gap-2">
-          <Waves className="w-4 h-4 text-purple-500" />
-          <CardTitle className="text-purple-500 text-sm font-mono uppercase tracking-wider">
-            Power Spectral Density
-          </CardTitle>
+    <Card className="bg-white/80 dark:bg-slate-900/80 backdrop-blur border-slate-200 dark:border-slate-800 shadow-lg hover:shadow-xl transition-shadow duration-300 h-full">
+      <CardHeader className="border-b border-slate-200 dark:border-slate-800 pb-4">
+        <div className="flex items-center gap-3">
+          <div className="p-2 bg-violet-100 dark:bg-violet-950/30 rounded-lg">
+            <Waves className="w-5 h-5 text-violet-600 dark:text-violet-400" />
+          </div>
+          <div>
+            <CardTitle className="text-lg font-semibold text-slate-900 dark:text-slate-100">
+              Power Spectral Density
+            </CardTitle>
+            <p className="text-xs text-slate-500 dark:text-slate-400 mt-0.5">
+              Frequency domain power distribution
+            </p>
+          </div>
         </div>
       </CardHeader>
-      <CardContent className="p-3">
+      <CardContent className="p-4">
         {loading ? (
-          <div className="flex items-center justify-center h-64">
-            <div className="text-purple-500 font-mono text-xs animate-pulse">
-              &gt; COMPUTING PSD...
-            </div>
+          <div className="flex flex-col items-center justify-center h-80 gap-3">
+            <Loader2 className="w-8 h-8 text-violet-600 dark:text-violet-400 animate-spin" />
+            <p className="text-sm text-slate-600 dark:text-slate-400">Computing power spectrum...</p>
           </div>
         ) : (
-          <div className="bg-black/50 border border-purple-500/20 rounded p-2">
+          <div className="bg-slate-50/50 dark:bg-slate-950/50 rounded-lg p-3 border border-slate-200 dark:border-slate-800">
             <Plot
               data={plotData}
               layout={{
                 autosize: true,
-                height: 300,
+                height: 360,
                 paper_bgcolor: 'rgba(0,0,0,0)',
-                plot_bgcolor: 'rgba(0,0,0,0.3)',
+                plot_bgcolor: 'rgba(0,0,0,0)',
                 xaxis: {
-                  title: { text: 'Frequency (Hz)', font: { color: '#a855f7', size: 10 } },
-                  color: '#a855f7',
-                  gridcolor: '#a855f733',
+                  title: {
+                    text: 'Frequency (Hz)',
+                    font: {
+                      color: 'rgb(100, 116, 139)',
+                      size: 12,
+                      family: 'Inter, system-ui, sans-serif'
+                    }
+                  },
+                  color: 'rgb(148, 163, 184)',
+                  gridcolor: 'rgba(148, 163, 184, 0.2)',
                   showline: true,
-                  linecolor: '#a855f7',
+                  linecolor: 'rgba(148, 163, 184, 0.3)',
+                  zeroline: false,
                 },
                 yaxis: {
-                  title: { text: 'Power (µV²/Hz)', font: { color: '#a855f7', size: 10 } },
+                  title: {
+                    text: 'Power (µV²/Hz)',
+                    font: {
+                      color: 'rgb(100, 116, 139)',
+                      size: 12,
+                      family: 'Inter, system-ui, sans-serif'
+                    }
+                  },
                   type: 'log',
-                  color: '#a855f7',
-                  gridcolor: '#a855f733',
+                  color: 'rgb(148, 163, 184)',
+                  gridcolor: 'rgba(148, 163, 184, 0.2)',
                   showline: true,
-                  linecolor: '#a855f7',
+                  linecolor: 'rgba(148, 163, 184, 0.3)',
                 },
                 font: {
-                  color: '#a855f7',
-                  family: 'monospace',
-                  size: 9,
+                  color: 'rgb(100, 116, 139)',
+                  family: 'Inter, system-ui, sans-serif',
+                  size: 11,
                 },
-                margin: { t: 10, r: 20, b: 40, l: 60 },
+                margin: { t: 10, r: 30, b: 50, l: 70 },
+                hovermode: 'closest',
               }}
               useResizeHandler
               style={{ width: '100%' }}
               config={{
                 responsive: true,
-                displayModeBar: false,
+                displayModeBar: true,
+                displaylogo: false,
+                modeBarButtonsToRemove: ['lasso2d', 'select2d'],
               }}
             />
           </div>
