@@ -26,6 +26,38 @@ fi
 echo "Docker and Docker Compose are installed"
 echo ""
 
+# Check if Docker daemon is accessible
+echo "Checking Docker daemon connectivity..."
+if ! docker info &> /dev/null; then
+    echo ""
+    echo "ERROR: Docker daemon is not accessible!"
+    echo ""
+    echo "Docker is installed but the daemon is not running or not accessible."
+    echo ""
+    echo "Solutions:"
+    echo "  1. Start Docker Desktop (Mac/Windows):"
+    echo "     - Open Docker Desktop application"
+    echo "     - Wait for it to show 'Docker is running'"
+    echo ""
+    echo "  2. Start Docker service (Linux):"
+    echo "     - Run: sudo systemctl start docker"
+    echo "     - Or: sudo service docker start"
+    echo ""
+    echo "  3. Check Docker socket permissions (Linux):"
+    echo "     - Run: sudo chmod 666 /var/run/docker.sock"
+    echo "     - Or add your user to docker group: sudo usermod -aG docker \$USER"
+    echo "     - Then logout and login again"
+    echo ""
+    echo "  4. Verify Docker Desktop is fully started:"
+    echo "     - Run: docker info"
+    echo "     - Should show Docker version and system info"
+    echo ""
+    exit 1
+fi
+
+echo "Docker daemon is running and accessible"
+echo ""
+
 # Stop and remove existing containers
 echo "Stopping and removing existing containers..."
 docker-compose down
