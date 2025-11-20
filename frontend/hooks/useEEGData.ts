@@ -2,9 +2,87 @@
  * Custom hook for EEG data management with optimized fetching and caching
  */
 import { useState, useEffect, useCallback, useRef } from 'react'
-import axios from 'axios'
+import axios, { AxiosError } from 'axios'
 
 const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8000'
+
+// Configure axios defaults
+axios.defaults.timeout = 30000 // 30 second timeout
+
+/**
+ * Helper function to retry requests with exponential backoff
+ */
+async function fetchWithRetry<T>(
+  fetchFn: () => Promise<T>,
+  maxRetries: number = 3,
+  initialDelay: number = 1000
+): Promise<T> {
+  let lastError: Error | null = null
+
+  for (let attempt = 0; attempt <= maxRetries; attempt++) {
+    try {
+      return await fetchFn()
+    } catch (error) {
+      lastError = error as Error
+      const axiosError = error as AxiosError
+
+      // If it's a 503 (service initializing), retry with longer delay
+      if (axiosError.response?.status === 503 && attempt < maxRetries) {
+        const delay = initialDelay * Math.pow(2, attempt)
+        console.log(`Backend initializing, retrying in ${delay}ms... (attempt ${attempt + 1}/${maxRetries})`)
+        await new Promise(resolve => setTimeout(resolve, delay))
+        continue
+      }
+
+      // For other errors, don't retry
+      if (attempt === maxRetries || axiosError.response?.status !== 503) {
+        throw lastError
+      }
+    }
+  }
+
+  throw lastError
+}
+
+/**
+ * Hook to check backend health and initialization status
+ */
+export function useBackendHealth() {
+  const [isHealthy, setIsHealthy] = useState(false)
+  const [isInitializing, setIsInitializing] = useState(true)
+  const [error, setError] = useState<Error | null>(null)
+
+  useEffect(() => {
+    const checkHealth = async () => {
+      try {
+        const response = await axios.get(`${API_URL}/api/health`)
+        const data = response.data
+
+        if (data.status === 'healthy' && data.data_loaded) {
+          setIsHealthy(true)
+          setIsInitializing(false)
+        } else if (data.status === 'initializing') {
+          setIsInitializing(true)
+          // Check again in 2 seconds
+          setTimeout(checkHealth, 2000)
+        } else {
+          setIsHealthy(false)
+          setIsInitializing(false)
+        }
+        setError(null)
+      } catch (err) {
+        setError(err as Error)
+        setIsHealthy(false)
+        // Retry in 3 seconds on error
+        setTimeout(checkHealth, 3000)
+      }
+    }
+
+    checkHealth()
+  }, [])
+
+  return { isHealthy, isInitializing, error }
+}
 
 export interface EEGInfo {
   n_channels: number
@@ -45,7 +123,9 @@ export function useEEGInfo() {
     const fetchInfo = async () => {
       try {
         setLoading(true)
-        const response = await axios.get(`${API_URL}/api/eeg-info`)
+        const response = await fetchWithRetry(() =>
+          axios.get(`${API_URL}/api/eeg-info`)
+        )
         setData(response.data)
         setError(null)
       } catch (err) {
@@ -71,9 +151,11 @@ export function useEEGData(tmin: number = 0, tmax: number = 10) {
     const fetchData = async () => {
       try {
         setLoading(true)
-        const response = await axios.get(`${API_URL}/api/eeg-data`, {
-          params: { tmin, tmax }
-        })
+        const response = await fetchWithRetry(() =>
+          axios.get(`${API_URL}/api/eeg-data`, {
+            params: { tmin, tmax }
+          })
+        )
         setData(response.data)
         setError(null)
       } catch (err) {
@@ -99,7 +181,9 @@ export function usePSDData() {
     const fetchPSD = async () => {
       try {
         setLoading(true)
-        const response = await axios.get(`${API_URL}/api/eeg-psd`)
+        const response = await fetchWithRetry(() =>
+          axios.get(`${API_URL}/api/eeg-psd`)
+        )
         setData(response.data)
         setError(null)
       } catch (err) {
@@ -125,7 +209,9 @@ export function useBandData() {
     const fetchBands = async () => {
       try {
         setLoading(true)
-        const response = await axios.get(`${API_URL}/api/eeg-bands`)
+        const response = await fetchWithRetry(() =>
+          axios.get(`${API_URL}/api/eeg-bands`)
+        )
         setData(response.data)
         setError(null)
       } catch (err) {
@@ -163,9 +249,11 @@ export function useTopomap(timePoint: number, debounceMs: number = 200) {
     timeoutRef.current = setTimeout(async () => {
       try {
         setLoading(true)
-        const response = await axios.get(`${API_URL}/api/eeg-topomap/${timePoint}`, {
-          responseType: 'blob',
-        })
+        const response = await fetchWithRetry(() =>
+          axios.get(`${API_URL}/api/eeg-topomap/${timePoint}`, {
+            responseType: 'blob',
+          })
+        )
 
         // Revoke previous URL to prevent memory leaks
         if (currentUrlRef.current) {

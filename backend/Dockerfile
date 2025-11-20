@@ -23,5 +23,5 @@ COPY . .
 # Expose port
 EXPOSE 8000
 
-# Run with gunicorn for production
-CMD ["gunicorn", "--bind", "0.0.0.0:8000", "--workers", "4", "--timeout", "120", "app:app"]
+# Run with gunicorn for production with preload to initialize data once
+CMD ["gunicorn", "--config", "gunicorn_config.py", "--preload", "app:app"]

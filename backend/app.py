@@ -9,6 +9,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 import os
 import logging
+import threading
 from functools import lru_cache
 from datetime import datetime
 
@@ -28,6 +29,24 @@ app.config['MAX_CONTENT_LENGTH'] = 16 * 1024 * 1024  # 16MB max file size
 
 # Initialize app
 logger.info("Initializing Encephalic Backend")
+
+# Global variable to track initialization status
+_initialization_complete = False
+_initialization_error = None
+
+def initialize_data():
+    """Initialize MNE data during startup to prevent timeout issues"""
+    global _initialization_complete, _initialization_error
+    try:
+        logger.info("Starting data initialization...")
+        # Trigger lazy-loaded functions to cache data
+        get_data_path()
+        get_raw_data()
+        _initialization_complete = True
+        logger.info("Data initialization completed successfully")
+    except Exception as e:
+        _initialization_error = str(e)
+        logger.error(f"Failed to initialize data: {e}", exc_info=True)
 
 @lru_cache(maxsize=1)
 def get_data_path():
@@ -52,11 +71,35 @@ def get_raw_data():
     logger.info(f"Raw data loaded: {len(raw.ch_names)} channels, {raw.times[-1]:.2f}s duration")
     return raw
 
+@app.before_request
+def check_initialization():
+    """Check if data is initialized before processing requests"""
+    # Skip check for health endpoint
+    if request.path == '/api/health':
+        return None
+
+    if _initialization_error:
+        return jsonify({"error": "Backend initialization failed", "details": _initialization_error}), 503
+
+    if not _initialization_complete:
+        return jsonify({"error": "Backend is still initializing, please wait"}), 503
+
+    return None
+
 @app.route('/api/health', methods=['GET'])
 def health_check():
     """Health check endpoint"""
     logger.info("Health check requested")
-    return jsonify({"status": "healthy", "service": "Encephalic Backend"}), 200
+    status = {
+        "status": "healthy" if _initialization_complete else "initializing",
+        "service": "Encephalic Backend",
+        "data_loaded": _initialization_complete
+    }
+    if _initialization_error:
+        status["status"] = "unhealthy"
+        status["error"] = _initialization_error
+        return jsonify(status), 503
+    return jsonify(status), 200
 
 @app.route('/api/eeg-data', methods=['GET'])
 def get_eeg_data():
@@ -116,11 +159,12 @@ def get_eeg_info():
         logger.error(f"Error in get_eeg_info: {str(e)}", exc_info=True)
         return jsonify({"error": str(e)}), 500
 
-@app.route('/api/eeg-topomap/<float:time_point>', methods=['GET'])
+@app.route('/api/eeg-topomap/<time_point>', methods=['GET'])
 def generate_topomap(time_point):
     """Generate topographic map at specific time point"""
-    logger.info(f"Topomap requested for time point: {time_point}s")
     try:
+        time_point = float(time_point)
+        logger.info(f"Topomap requested for time point: {time_point}s")
         raw = get_raw_data()
         times = raw.times
 
@@ -241,5 +285,24 @@ def get_frequency_bands():
         logger.error(f"Error in get_frequency_bands: {str(e)}", exc_info=True)
         return jsonify({"error": str(e)}), 500
 
+# Initialize data when module is loaded (for gunicorn with --preload)
+# This runs once in the master process before forking workers
+_init_lock = threading.Lock()
+
+def ensure_initialized():
+    """Ensure data is initialized exactly once"""
+    global _initialization_complete
+    if not _initialization_complete:
+        with _init_lock:
+            if not _initialization_complete:
+                initialize_data()
+
+# Initialize immediately when module loads (for production with gunicorn --preload)
+if os.environ.get('GUNICORN_CMD_ARGS') or 'gunicorn' in os.environ.get('SERVER_SOFTWARE', ''):
+    logger.info("Detected gunicorn environment - initializing data at module load")
+    initialize_data()
+
 if __name__ == '__main__':
+    # Initialize data before starting the server (for development)
+    ensure_initialized()
     app.run(host='0.0.0.0', port=8000, debug=True)
